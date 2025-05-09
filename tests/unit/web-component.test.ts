@@ -151,13 +151,99 @@ describe('WebComponent', () => {
     });
   });
 
-  describe('unimplemented methods', () => {
-    it('should throw error for raiseEvent', () => {
-      expect(() => component.raiseEvent('test-event')).toThrow('Not Implemented');
+  describe('raiseEvent', () => {
+    it('should dispatch a custom event with the specified type', () => {
+      // Create a spy on dispatchEvent
+      const dispatchEventSpy = vi.spyOn(component, 'dispatchEvent');
+
+      // Call raiseEvent
+      component.raiseEvent('test-event');
+
+      // Check if dispatchEvent was called with a CustomEvent of the correct type
+      expect(dispatchEventSpy).toHaveBeenCalled();
+      const event = dispatchEventSpy.mock.calls[0][0] as CustomEvent;
+      expect(event.type).toBe('test-event');
+      expect(event.bubbles).toBe(true);
+      expect(event.cancelable).toBe(true);
+      expect(event.composed).toBe(true);
     });
 
-    it('should throw error for findParent', () => {
-      expect(() => component.findParent('.test-selector')).toThrow('Not implemented');
+    it('should include the provided data in the event detail', () => {
+      // Create a spy on dispatchEvent
+      const dispatchEventSpy = vi.spyOn(component, 'dispatchEvent');
+
+      // Call raiseEvent with data
+      const eventData = { foo: 'bar', count: 42 };
+      component.raiseEvent('test-event', eventData);
+
+      // Check if the event detail contains the provided data
+      const event = dispatchEventSpy.mock.calls[0][0] as CustomEvent;
+      expect(event.detail).toEqual(eventData);
+    });
+
+    it('should return the result of dispatchEvent', () => {
+      // Mock dispatchEvent to return false (as if preventDefault was called)
+      const dispatchEventSpy = vi.spyOn(component, 'dispatchEvent').mockReturnValue(false);
+
+      // Call raiseEvent and check the return value
+      const result = component.raiseEvent('test-event');
+      expect(result).toBe(false);
+
+      // Reset the mock
+      dispatchEventSpy.mockRestore();
+    });
+  });
+
+  describe('findParent', () => {
+    it('should return the first parent element that matches the selector', () => {
+      // Create a parent element with a specific class
+      const parent = document.createElement('div');
+      parent.classList.add('parent-class');
+
+      // Create a grandparent element with a different class
+      const grandparent = document.createElement('div');
+      grandparent.classList.add('grandparent-class');
+
+      // Set up the DOM hierarchy
+      parent.appendChild(component);
+      grandparent.appendChild(parent);
+      container.innerHTML = '';
+      container.appendChild(grandparent);
+
+      // Call findParent with the parent's class
+      const result = component.findParent('.parent-class');
+
+      // Check if the correct element was returned
+      expect(result).toBe(parent);
+    });
+
+    it('should return the component itself if no matching parent is found', () => {
+      // Call findParent with a selector that doesn't match any parent
+      const result = component.findParent('.non-existent-class');
+
+      // Check if the component itself was returned
+      expect(result).toBe(component);
+    });
+
+    it('should find a parent higher up in the hierarchy', () => {
+      // Create a parent element
+      const parent = document.createElement('div');
+
+      // Create a grandparent element with a specific class
+      const grandparent = document.createElement('div');
+      grandparent.classList.add('grandparent-class');
+
+      // Set up the DOM hierarchy
+      parent.appendChild(component);
+      grandparent.appendChild(parent);
+      container.innerHTML = '';
+      container.appendChild(grandparent);
+
+      // Call findParent with the grandparent's class
+      const result = component.findParent('.grandparent-class');
+
+      // Check if the correct element was returned
+      expect(result).toBe(grandparent);
     });
   });
 });

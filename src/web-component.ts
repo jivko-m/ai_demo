@@ -57,8 +57,15 @@ export class WebComponent extends LitElement {
 	* @param data Property list object which will be set on event object
 	* @returns False if at least one of the event handlers which handled this event called Event.preventDefault()
 	*/
-	raiseEvent(_type: string, _data?: Record<string, unknown>): boolean {
-		throw new Error('Not Implemented');
+	raiseEvent(type: string, data?: Record<string, unknown>): boolean {
+		const event = new CustomEvent(type, {
+			bubbles: true,
+			cancelable: true,
+			composed: true,
+			detail: data || {}
+		});
+
+		return this.dispatchEvent(event);
 	}
 
 	/**
@@ -66,7 +73,17 @@ export class WebComponent extends LitElement {
 	 * @param cssSelector CSS style selector
 	 * @return Returns first matching element or itself
 	 */
-	findParent(_cssSelector: string): HTMLElement {
-		throw new Error('Not implemented');
+	findParent(cssSelector: string): HTMLElement {
+		let currentElement: HTMLElement | null = this.parentElement;
+
+		while (currentElement) {
+			if (currentElement.matches(cssSelector)) {
+				return currentElement;
+			}
+			currentElement = currentElement.parentElement;
+		}
+
+		// If no matching parent is found, return itself
+		return this;
 	}
 }
