@@ -1,5 +1,6 @@
 import { LitElement, css, html } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
+import { renderIf } from './directives/render-if'
 import litLogo from './assets/lit.svg'
 import viteLogo from '/vite.svg'
 
@@ -39,6 +40,11 @@ export class MyElement extends LitElement {
           count is ${this.count}
         </button>
       </div>
+      ${renderIf(this.count > 5, html`
+        <div class="achievement">
+          <p>Congratulations! You've clicked more than 5 times!</p>
+        </div>
+      `)}
       <p class="read-the-docs">${this.docsHint}</p>
     `
   }
@@ -74,6 +80,20 @@ export class MyElement extends LitElement {
 
     .read-the-docs {
       color: #888;
+    }
+
+    .achievement {
+      margin: 1em 0;
+      padding: 1em;
+      background-color: #4caf50;
+      color: white;
+      border-radius: 8px;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     ::slotted(h1) {
