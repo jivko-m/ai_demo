@@ -1,19 +1,20 @@
 import { nothing } from 'lit';
-import { directive, Directive, PartType } from 'lit/directive.js';
+import { directive, Directive, PartType, type PartInfo } from 'lit/directive.js';
+import type {TemplateResult} from 'lit';
 
 /**
  * A directive that conditionally renders HTML content based on a boolean condition.
  * If the condition is true, the content is rendered; otherwise, nothing is rendered.
  */
 class RenderIfDirective extends Directive {
-  constructor(partInfo) {
+  constructor(partInfo: PartInfo) {
     super(partInfo);
     if (partInfo.type !== PartType.CHILD) {
       throw new Error('renderIf() can only be used in child expressions');
     }
   }
 
-  render(condition, template) {
+  render(condition: boolean, template: TemplateResult): TemplateResult | typeof nothing {
     return condition ? template : nothing;
   }
 }
@@ -21,12 +22,12 @@ class RenderIfDirective extends Directive {
 /**
  * A directive that conditionally renders HTML content based on a boolean condition.
  * 
- * @param {boolean} condition - The condition to evaluate
- * @param {TemplateResult} template - The template to render if condition is true
- * @returns {any} The rendered content or noChange
+ * @param condition - The condition to evaluate
+ * @param template - The template to render if condition is true
+ * @returns The rendered content or nothing
  * 
  * @example
- * ```js
+ * ```ts
  * html`
  *   <div>
  *     ${renderIf(isLoggedIn, html`<p>Welcome, user!</p>`)}
@@ -35,3 +36,10 @@ class RenderIfDirective extends Directive {
  * ```
  */
 export const renderIf = directive(RenderIfDirective);
+
+// Type declaration for the directive
+declare module 'lit/directive.js' {
+  interface DirectiveTypeMap {
+    'render-if': typeof RenderIfDirective;
+  }
+}
