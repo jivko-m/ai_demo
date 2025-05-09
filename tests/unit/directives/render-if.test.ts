@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { html, render } from 'lit';
 import { renderIf } from '../../../src/directives/render-if';
 
