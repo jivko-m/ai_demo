@@ -1,5 +1,5 @@
 import { css } from "lit";
-import '../ficons/fonts/dragon-ficons.woff';
+// import '../ficons/fonts/dragon-ficons.woff';
 
 export const coreStyles = css`
 [class^="draficon-"], [class*=" draficon-"], .draficon {

@@ -3,6 +3,7 @@ import { customElement, property } from 'lit/decorators.js'
 import { renderIf } from './directives/render-if'
 import litLogo from './assets/lit.svg'
 import viteLogo from '/vite.svg'
+import './components/button'
 
 /**
  * An example element.
@@ -36,9 +37,9 @@ export class MyElement extends LitElement {
       </div>
       <slot></slot>
       <div class="card">
-        <button @click=${this._onClick} part="button">
+        <ctrl-button @click=${this._onClick} part="button">
           count is ${this.count}
-        </button>
+        </ctrl-button>
       </div>
       ${renderIf(this.count > 5, html`
         <div class="achievement">
@@ -110,32 +111,13 @@ export class MyElement extends LitElement {
       color: #535bf2;
     }
 
-    button {
-      border-radius: 8px;
-      border: 1px solid transparent;
-      padding: 0.6em 1.2em;
-      font-size: 1em;
-      font-weight: 500;
-      font-family: inherit;
-      background-color: #1a1a1a;
-      cursor: pointer;
-      transition: border-color 0.25s;
-    }
-    button:hover {
-      border-color: #646cff;
-    }
-    button:focus,
-    button:focus-visible {
-      outline: 4px auto -webkit-focus-ring-color;
-    }
+    /* Button styles are now provided by ctrl-button component */
 
     @media (prefers-color-scheme: light) {
       a:hover {
         color: #747bff;
       }
-      button {
-        background-color: #f9f9f9;
-      }
+      /* Button styles for light mode are now provided by ctrl-button component */
     }
   `
 }
