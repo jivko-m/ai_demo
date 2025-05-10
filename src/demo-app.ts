@@ -8,6 +8,7 @@ import './pages/home-page';
 import './pages/buttons-page';
 import './pages/selects-page';
 import './pages/about-page';
+import './pages/logs-page';
 
 /**
  * Demo app for ctrl-button and ctrl-select components
@@ -69,8 +70,10 @@ export class DemoApp extends LitElement {
         return html`<selects-page></selects-page>`;
       case 'about':
         return html`<about-page></about-page>`;
-      case 'docs':
-        return html`<iframe src="/docs/" class="iframe-content"></iframe>`;
+      case 'logs':
+        return html`<logs-page></logs-page>`;
+      case 'playwright':
+        return html`<iframe src="/playwright-report/index.html" class="iframe-content"></iframe>`;
       case 'coverage':
         return html`<iframe src="/coverage/index.html" class="iframe-content"></iframe>`;
       default:
@@ -80,13 +83,13 @@ export class DemoApp extends LitElement {
 
   private _handlePageChange(e: CustomEvent) {
     this.currentPage = e.detail.pageId;
-    
+
     // Handle external links
     if (e.detail.external) {
       window.open(e.detail.url, '_blank');
       return;
     }
-    
+
     console.log('Page changed to:', this.currentPage);
   }
 

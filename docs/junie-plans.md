@@ -106,7 +106,62 @@ Vitepress was successfully initialized in the docs directory, and routes for the
 ### Summary
 A `demo-app.ts` file was created by renaming `demo-page.ts`, and the sidebar was updated to include navigation for Vitepress generated pages and the coverage index.html. The implementation is error-free, and all requirements were successfully met.
 ***
-
+### Prompt #6
+Config Vitepress to produce only html files from MD files without navigation
+### Junie Plan
+1. Examine the current Vitepress configuration in docs/.vitepress/config.ts
+2. Research Vitepress configuration options for disabling navigation
+3. Modify the Vitepress configuration to:
+- Disable the default navigation bar
+- Disable the sidebar
+- Ensure only clean HTML output is generated from MD files
+4. Remove unnecessary imports
+5. Test the changes by building the Vitepress site
+6. Verify that the generated HTML files don't include navigation elements
+7. Create a custom minimal theme to completely strip Vitepress UI
+- Create theme directory
+- Create index.js file with minimal theme
+- Create Layout.vue with minimal layout
+8. Test the custom theme by building the site again
+9. Verify the generated HTML files with the custom theme
+10. Modify the custom theme to produce even cleaner HTML
+11. Test the modified custom theme
+12. Verify the generated HTML files with the modified custom theme
+13. Create a custom build script to generate clean HTML files
+14. Install required dependencies for the custom build script
+15. Add a script to package.json to run the custom build
+16. Fix the custom build script to use ES modules
+17. Fix the custom build script to exclude certain directories
+18. Test the custom build script
+19. Verify the generated HTML files from the custom build script
+20. Improve the custom build script to handle frontmatter properly
+21. Test the improved custom build script
+22. Verify the generated HTML files from the improved custom build script
+23. Update any related components if necessary
+24. Submit the changes
+### Summary
+A custom build script was created to generate clean HTML files from Markdown files without any navigation elements or JavaScript, successfully handling frontmatter. The implementation is error-free, and all tests passed, resulting in properly rendered content in the generated HTML files.
+***
+### Prompt #7
+- Set output for generated HTML-s to be src/docs.
+- Create pages/logs.ts component that shows generated HTMLS with tab navigation
+### Junie Plan
+1. Examine the current custom build script to understand how it generates HTML files
+2. Modify the custom build script to output files to src/docs instead of docs/.vitepress/dist
+3. Create the src/docs directory if it doesn't exist (handled by the script)
+4. Examine existing page components to understand the structure and styling
+5. Check if the src/docs directory exists and what files it contains
+6. Run the custom build script to generate HTML files in src/docs
+7. Create a new component src/pages/logs.ts that will display the generated HTML files with tab navigation
+8. Check the sidebar-menu.ts component to see if it already has a navigation item for logs
+9. Update the demo-app.ts to include the new logs page in navigation
+- Import the logs-page component
+- Add a case for rendering it when the currentPage is 'logs'
+10. Test the changes to ensure everything works correctly
+11. Submit the changes
+### Summary
+The output for generated HTML files was successfully set to `src/docs`, and a `logs-page.ts` component was created to display these files with tab navigation. The implementation is error-free, and all necessary updates to the demo application were made to include the new logs page in navigation.
+***
 
 ## Refactor select.js to TypeScript with tests and logging
 ### Prompt #1
