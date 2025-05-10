@@ -1,3 +1,168 @@
+## Demo Page for Ctrl-Button and Ctrl-Select Functionality
+### Prompt #1
+Create demo page that shows ctrl-button and ctrl-select functionality
+
+### Junie Plan
+1. Explore the project structure to understand the components and their functionality
+2. Examine the button-controller.ts and any select-controller files to understand their functionality
+3. Look at the existing select.js and any button component files
+4. Check if there's an existing demo page or structure that can be extended
+5. Create a new demo page that demonstrates the ctrl-button and ctrl-select functionality
+   a. Create a new file called demo-page.ts in the src directory
+   b. Import and use both ctrl-button and ctrl-select components
+   c. Check how ctrl-option is handled
+   d. Create ctrl-option component
+   e. Update index.html to use the new demo page
+   f. Update demo-page.ts to import the ctrl-option component
+6. Test the demo page to ensure it works as expected
+
+### Summary
+A demo page was created to showcase the functionality of the ctrl-button and ctrl-select components, including a ctrl-option component for use with the select. The implementation is error-free, and all tests passed.
+***
+### Prompt #2
+Change demo-page layout to two columns - one for ctrl-button and one for ctrl-select
+
+### Junie Plan
+1. Examine the current demo-page.ts file to understand its structure and layout
+2. Modify the CSS in demo-page.ts to create a two-column layout
+- Add a flex container for the two columns
+- Set appropriate widths and spacing for the columns
+3. Reorganize the HTML structure in the render method to place ctrl-button and ctrl-select components in separate columns
+- Wrap the two sections in column containers
+- Adjust any necessary padding or margins
+4. Test the changes to ensure the layout works as expected
+5. Submit the changes
+
+### Summary
+A two-column layout was successfully implemented for the demo page, with one column for the ctrl-button and another for the ctrl-select. The layout is responsive, adapting to smaller screens by switching to a single column. The implementation is error-free, and all tests passed.
+***
+### Prompt #3
+Create sidebar menu with navigation to other pages
+### Junie Plan
+1. Examine the current project structure to understand the navigation needs
+2. Look at the index.html file to understand how pages are currently loaded
+3. Look at the src/index.css file to understand global styles
+4. Examine the demo-page.ts file to understand its structure and how to integrate the sidebar
+5. Create a new sidebar component (sidebar-menu.ts) that will contain navigation links
+6. Create sample page components that can be navigated to from the sidebar
+- Create a home-page.ts component
+- Create a buttons-page.ts component
+- Create a selects-page.ts component
+- Create an about-page.ts component
+7. Update the demo-page.ts to include the sidebar menu and handle navigation between pages
+- Add imports for sidebar and page components
+- Add a state property to track the current page
+- Update the render method to include the sidebar and conditionally render pages
+- Add an event handler for page navigation
+- Update the CSS to accommodate the sidebar layout
+8. Update the index.css file to ensure proper layout
+9. Test the navigation functionality
+10. Submit the changes
+
+### Summary
+A sidebar menu was successfully created to facilitate navigation to various pages within the application. The implementation is error-free, and all tests passed, ensuring that the sidebar functions as intended.
+***
+### Prompt #4
+- Initialize Vitepress in docs directory.
+- Config routes for MD pages
+### Junie Plan
+1. Understand what Vitepress is and its requirements
+2. Check if Vitepress is already installed in the project
+3. Install Vitepress in the docs directory
+4. Initialize Vitepress configuration
+5. Configure routes for MD pages
+- Examine the config.ts file
+- Check what MD files are available in the docs directory
+- Check what's in the conversion-logs directory
+- Update the configuration for MD pages
+6. Update .gitignore file as recommended
+7. Test the Vitepress setup
+8. Submit the changes
+### Summary
+Vitepress was successfully initialized in the docs directory, and routes for the Markdown pages were configured in the Vitepress configuration file. The implementation is error-free, and the development server is running correctly, confirming that the setup works as intended.
+***
+### Prompt #5
+- Rename demo-page.ts to demo-app.ts
+- In demo-page sidebar include navigation for vitepress generated pages
+- In demo-page sidebar include navigation for coverage index.html
+- Vitepress pages and coverage index must be part of the demo site
+### Junie Plan
+1. Examine the current demo-page.ts file to understand its structure
+2. Examine the sidebar-menu.ts component to understand how navigation works
+3. Check the index.html file to understand how the demo page is loaded
+4. Rename demo-page.ts to demo-app.ts
+5. Update references to demo-page in other files:
+- index.html
+- src/index.css
+6. Update the sidebar-menu.ts component to include navigation for:
+- Vitepress generated pages
+- Coverage index.html
+- Add icons for new navigation items
+7. Create a mechanism to display Vitepress pages and coverage report within the demo site
+- Added iframe support in demo-app.ts
+8. Test the changes to ensure everything works correctly
+- Reviewed all changes and confirmed they meet the requirements
+9. Submit the changes
+### Summary
+A `demo-app.ts` file was created by renaming `demo-page.ts`, and the sidebar was updated to include navigation for Vitepress generated pages and the coverage index.html. The implementation is error-free, and all requirements were successfully met.
+***
+### Prompt #6
+Config Vitepress to produce only html files from MD files without navigation
+### Junie Plan
+1. Examine the current Vitepress configuration in docs/.vitepress/config.ts
+2. Research Vitepress configuration options for disabling navigation
+3. Modify the Vitepress configuration to:
+- Disable the default navigation bar
+- Disable the sidebar
+- Ensure only clean HTML output is generated from MD files
+4. Remove unnecessary imports
+5. Test the changes by building the Vitepress site
+6. Verify that the generated HTML files don't include navigation elements
+7. Create a custom minimal theme to completely strip Vitepress UI
+- Create theme directory
+- Create index.js file with minimal theme
+- Create Layout.vue with minimal layout
+8. Test the custom theme by building the site again
+9. Verify the generated HTML files with the custom theme
+10. Modify the custom theme to produce even cleaner HTML
+11. Test the modified custom theme
+12. Verify the generated HTML files with the modified custom theme
+13. Create a custom build script to generate clean HTML files
+14. Install required dependencies for the custom build script
+15. Add a script to package.json to run the custom build
+16. Fix the custom build script to use ES modules
+17. Fix the custom build script to exclude certain directories
+18. Test the custom build script
+19. Verify the generated HTML files from the custom build script
+20. Improve the custom build script to handle frontmatter properly
+21. Test the improved custom build script
+22. Verify the generated HTML files from the improved custom build script
+23. Update any related components if necessary
+24. Submit the changes
+### Summary
+A custom build script was created to generate clean HTML files from Markdown files without any navigation elements or JavaScript, successfully handling frontmatter. The implementation is error-free, and all tests passed, resulting in properly rendered content in the generated HTML files.
+***
+### Prompt #7
+- Set output for generated HTML-s to be src/docs.
+- Create pages/logs.ts component that shows generated HTMLS with tab navigation
+### Junie Plan
+1. Examine the current custom build script to understand how it generates HTML files
+2. Modify the custom build script to output files to src/docs instead of docs/.vitepress/dist
+3. Create the src/docs directory if it doesn't exist (handled by the script)
+4. Examine existing page components to understand the structure and styling
+5. Check if the src/docs directory exists and what files it contains
+6. Run the custom build script to generate HTML files in src/docs
+7. Create a new component src/pages/logs.ts that will display the generated HTML files with tab navigation
+8. Check the sidebar-menu.ts component to see if it already has a navigation item for logs
+9. Update the demo-app.ts to include the new logs page in navigation
+- Import the logs-page component
+- Add a case for rendering it when the currentPage is 'logs'
+10. Test the changes to ensure everything works correctly
+11. Submit the changes
+### Summary
+The output for generated HTML files was successfully set to `src/docs`, and a `logs-page.ts` component was created to display these files with tab navigation. The implementation is error-free, and all necessary updates to the demo application were made to include the new logs page in navigation.
+***
+
 ## Refactor select.js to TypeScript with tests and logging
 ### Prompt #1
 Refactor select.js to TypeScrypt
