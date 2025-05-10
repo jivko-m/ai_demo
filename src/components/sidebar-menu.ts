@@ -14,7 +14,9 @@ export class SidebarMenu extends LitElement {
     { id: 'home', label: 'Home', icon: 'home' },
     { id: 'buttons', label: 'Buttons', icon: 'button' },
     { id: 'selects', label: 'Selects', icon: 'select' },
-    { id: 'about', label: 'About', icon: 'info' }
+    { id: 'about', label: 'About', icon: 'info' },
+    { id: 'docs', label: 'Documentation', icon: 'docs' },
+    { id: 'coverage', label: 'Test Coverage', icon: 'coverage' }
   ];
 
   render() {
@@ -121,6 +123,8 @@ export class SidebarMenu extends LitElement {
     .icon-button::before { content: "🔘"; }
     .icon-select::before { content: "📋"; }
     .icon-info::before { content: "ℹ️"; }
+    .icon-docs::before { content: "📚"; }
+    .icon-coverage::before { content: "📊"; }
   `;
 }
 
