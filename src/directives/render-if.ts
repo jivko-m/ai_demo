@@ -1,4 +1,4 @@
-import { nothing } from 'lit';
+import {html, nothing} from 'lit';
 import { directive, Directive, PartType, type PartInfo } from 'lit/directive.js';
 import type {TemplateResult} from 'lit';
 
@@ -14,8 +14,8 @@ class RenderIfDirective extends Directive {
     }
   }
 
-  render(condition: boolean, template: TemplateResult): TemplateResult | typeof nothing {
-    return condition ? template : nothing;
+  render(condition: boolean, template: () => TemplateResult): TemplateResult {
+    return condition ? template() : html`${nothing}`;
   }
 }
 

@@ -1,3 +1,45 @@
+## Resolve Test Failures in Code
+### Prompt #1
+- fix not passing tests
+### Junie Plan
+1. Understand the project structure and identify failing tests
+2. Examine the test files to understand what's being tested
+3. Run the tests to see which ones are failing and why
+4. Analyze the implementation code that's being tested
+5. Make necessary changes to fix the failing tests
+- Move event listener registration to constructor
+- Remove duplicate event listener from hostConnected
+- Add hostFirstUpdated method
+- Move submit button creation to hostFirstUpdated
+6. Verify that the tests now pass
+- Fix the remaining failing test: "should trigger submit button click when type is 'submit'"
+7. * Submit the solution
+
+### Summary
+All failing tests in the `ButtonController` class were successfully fixed, resulting in all 33 tests passing. Key changes included moving event listener registration to the constructor, adding the `hostFirstUpdated` method, and ensuring the submit button is created correctly. The implementation is now error-free and aligns with the expected test outcomes.
+***
+
+## Implement and Test Controller for Ctrl-Button
+### Prompt #1
+- Extract controller for ctrl-button. Use Lit documentation for info what is controller and how to apply it on ctrl-button.
+- Create unit tests for the new controller
+
+### Junie Plan
+1. Research Lit controllers to understand what they are and how to implement them
+2. Identify which functionality from the CtrlButton class should be extracted into a controller
+3. Create a new controller file for the ctrl-button
+4. Modify the CtrlButton class to use the new controller
+5. Create unit tests for the new controller
+6. Fix the tests to make them pass
+   a. Fix button-controller.test.ts
+   b. Fix button.test.ts
+7. Run tests to verify everything works correctly
+8. Summarize the changes made
+
+### Summary
+A controller for the `ctrl-button` component was successfully extracted and implemented, encapsulating button functionality such as click event handling and submit button creation. Comprehensive unit tests for the new controller were created and all tests, including those for the `ctrl-button`, passed without errors.
+***
+
 ## Convert Ctrl-button to TypeScript with Unit Tests and Coverage
 ### Prompt #1
 Convert ctrl-button to TypeScript

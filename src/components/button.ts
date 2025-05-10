@@ -1,26 +1,28 @@
-import { html, nothing } from 'lit';
+import { html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { WebComponent } from '../web-component';
+import { when } from 'lit/directives/when.js';
+import {renderIf, WebComponent} from '../web-component';
 import { buttonStyles } from '../styles/button-styles';
+import { ButtonController } from '../controllers/button-controller';
 
 @customElement('ctrl-button')
 export class CtrlButton extends WebComponent {
-  
-  static get styles(){
+
+  static get styles() {
     return [super.styles, buttonStyles];
   }
-  
 
-  @property({ type: String }) name = '';
-  @property({ type: Boolean, reflect: true }) disabled = false;
-  @property({ type: String }) icon = '';
-  @property({ type: String }) type = '';
-  @property({ type: String }) action = '';
-  @property({ type: String }) path = '';
-  @property({ type: String }) text = '';
-  @property({ type: String }) title: string | undefined = undefined;
+  @property({type: String}) name = '';
+  @property({type: Boolean, reflect: true}) disabled = false;
+  @property({type: String}) icon = '';
+  @property({type: String}) type = '';
+  @property({type: String}) action = '';
+  @property({type: String}) path = '';
+  @property({type: String}) text = '';
+  @property({type: String}) title: string | undefined = undefined;
 
-  private btnSubmit?: HTMLButtonElement;
+  // Button controller to handle button functionality
+  private buttonController: ButtonController;
 
   constructor() {
     super();
@@ -29,55 +31,23 @@ export class CtrlButton extends WebComponent {
     this.action = '';
     this.type = '';
 
-    this.addEventListener('click', this.handleClick, { capture: true });
-  }
-
-  private handleClick(e: MouseEvent): void {
-    if (this.disabled) {
-      e.stopImmediatePropagation();
-      e.preventDefault();
-      return;
-    }
-
-    if (this.type === 'submit') {
-      this.btnSubmit?.click();
-    }
-
-    let type = 'action';
-    const detail: Record<string, unknown> = { action: this.action };
-
-    if (this.path) {
-      type = 'follow';
-      detail.path = this.path;
-    }
-
-    this.raiseEvent(type, detail);
+    // Initialize the button controller
+    this.buttonController = new ButtonController(this);
   }
 
   firstUpdated(): void {
-    if (this.type === 'submit') {
-      const btnSubmit = document.createElement('button');
-      btnSubmit.type = 'submit';
-
-      Object.assign(btnSubmit.style, {
-        position: 'fixed',
-        left: '-999px',
-        top: '-999px'
-      });
-
-      this.append(btnSubmit);
-      this.btnSubmit = btnSubmit;
-    }
-
     super.title = this.title !== undefined ? this.title : this.text;
   }
 
   render() {
     return html`
-      ${this.icon ? html`<span class=${this.icon}></span>` : nothing}
-      ${this.text 
-        ? html`<span class="ctrl-text">${this.text}</span>` 
-        : html`<span class="ctrl-text"><slot></slot></span>`}
+      ${renderIf(!!this.icon, () => html`<span class=${this.icon}></span>`)}
+      <span class="ctrl-text">
+        ${when(this.text,
+            () => html`${this.text}`,
+            () => html`
+              <slot></slot>`)}
+      </span>
     `;
   }
 }

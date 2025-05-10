@@ -41,7 +41,7 @@ export class MyElement extends LitElement {
           count is ${this.count}
         </ctrl-button>
       </div>
-      ${renderIf(this.count > 5, html`
+      ${renderIf(this.count > 5, () => html`
         <div class="achievement">
           <p>Congratulations! You've clicked more than 5 times!</p>
         </div>

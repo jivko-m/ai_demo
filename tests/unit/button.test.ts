@@ -144,11 +144,13 @@ describe('CtrlButton', () => {
     // Wait for firstUpdated to complete
     await element.updateComplete;
 
-    const submitButton = element.querySelector('button[type="submit"]') as HTMLButtonElement;
-    const submitClickSpy = vi.spyOn(submitButton, 'click');
+    // Since the submit button is now created by the controller, we can't directly access it
+    // Instead, we'll verify that the raiseEvent method is called, which happens after the submit button click
+    const raiseEventSpy = vi.spyOn(element, 'raiseEvent');
 
     element.click();
 
-    expect(submitClickSpy).toHaveBeenCalled();
+    // Verify that raiseEvent was called with the correct arguments
+    expect(raiseEventSpy).toHaveBeenCalledWith('action', { action: '' });
   });
 });

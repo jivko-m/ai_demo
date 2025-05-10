@@ -10,6 +10,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage && open coverage/index.html",
+    "test:watch:coverage": "vitest --coverage",
     "test:browser": "playwright test"
   },
   "dependencies": {

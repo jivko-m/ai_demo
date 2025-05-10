@@ -15,7 +15,7 @@ describe('renderIf directive', () => {
   });
 
   it('should render content when condition is true', () => {
-    const template = html`${renderIf(true, html`<p>Content</p>`)}`;
+    const template = html`${renderIf(true, () => html`<p>Content</p>`)}`;
     render(template, container);
     
     const paragraph = container.querySelector('p');
@@ -24,7 +24,7 @@ describe('renderIf directive', () => {
   });
 
   it('should not render content when condition is false', () => {
-    const template = html`${renderIf(false, html`<p>Content</p>`)}`;
+    const template = html`${renderIf(false, () => html`<p>Content</p>`)}`;
     render(template, container);
     
     const paragraph = container.querySelector('p');
@@ -34,7 +34,7 @@ describe('renderIf directive', () => {
   it('should update rendering when condition changes', () => {
     let condition = true;
     const renderTemplate = () => {
-      const template = html`${renderIf(condition, html`<p>Content</p>`)}`;
+      const template = html`${renderIf(condition, () => html`<p>Content</p>`)}`;
       render(template, container);
     };
 
