@@ -1,3 +1,87 @@
+## Demo Page for Ctrl-Button and Ctrl-Select Functionality
+### Prompt #1
+Create demo page that shows ctrl-button and ctrl-select functionality
+
+### Junie Plan
+1. Explore the project structure to understand the components and their functionality
+2. Examine the button-controller.ts and any select-controller files to understand their functionality
+3. Look at the existing select.js and any button component files
+4. Check if there's an existing demo page or structure that can be extended
+5. Create a new demo page that demonstrates the ctrl-button and ctrl-select functionality
+   a. Create a new file called demo-page.ts in the src directory
+   b. Import and use both ctrl-button and ctrl-select components
+   c. Check how ctrl-option is handled
+   d. Create ctrl-option component
+   e. Update index.html to use the new demo page
+   f. Update demo-page.ts to import the ctrl-option component
+6. Test the demo page to ensure it works as expected
+
+### Summary
+A demo page was created to showcase the functionality of the ctrl-button and ctrl-select components, including a ctrl-option component for use with the select. The implementation is error-free, and all tests passed.
+***
+### Prompt #2
+Change demo-page layout to two columns - one for ctrl-button and one for ctrl-select
+
+### Junie Plan
+1. Examine the current demo-page.ts file to understand its structure and layout
+2. Modify the CSS in demo-page.ts to create a two-column layout
+- Add a flex container for the two columns
+- Set appropriate widths and spacing for the columns
+3. Reorganize the HTML structure in the render method to place ctrl-button and ctrl-select components in separate columns
+- Wrap the two sections in column containers
+- Adjust any necessary padding or margins
+4. Test the changes to ensure the layout works as expected
+5. Submit the changes
+
+### Summary
+A two-column layout was successfully implemented for the demo page, with one column for the ctrl-button and another for the ctrl-select. The layout is responsive, adapting to smaller screens by switching to a single column. The implementation is error-free, and all tests passed.
+***
+### Prompt #3
+Create sidebar menu with navigation to other pages
+### Junie Plan
+1. Examine the current project structure to understand the navigation needs
+2. Look at the index.html file to understand how pages are currently loaded
+3. Look at the src/index.css file to understand global styles
+4. Examine the demo-page.ts file to understand its structure and how to integrate the sidebar
+5. Create a new sidebar component (sidebar-menu.ts) that will contain navigation links
+6. Create sample page components that can be navigated to from the sidebar
+- Create a home-page.ts component
+- Create a buttons-page.ts component
+- Create a selects-page.ts component
+- Create an about-page.ts component
+7. Update the demo-page.ts to include the sidebar menu and handle navigation between pages
+- Add imports for sidebar and page components
+- Add a state property to track the current page
+- Update the render method to include the sidebar and conditionally render pages
+- Add an event handler for page navigation
+- Update the CSS to accommodate the sidebar layout
+8. Update the index.css file to ensure proper layout
+9. Test the navigation functionality
+10. Submit the changes
+
+### Summary
+A sidebar menu was successfully created to facilitate navigation to various pages within the application. The implementation is error-free, and all tests passed, ensuring that the sidebar functions as intended.
+***
+### Prompt #4
+- Initialize Vitepress in docs directory.
+- Config routes for MD pages
+### Junie Plan
+
+### Summary
+
+***
+### Prompt #5
+- Rename demo-page.ts to demo-app.ts
+- In demo-page sidebar include navigation for vitepress generated pages
+- In demo-page sidebar include navigation for coverage index.html
+- Vitepress pages and coverage index must be part of the demo site
+### Junie Plan
+
+### Summary
+
+***
+
+
 ## Refactor select.js to TypeScript with tests and logging
 ### Prompt #1
 Refactor select.js to TypeScrypt
