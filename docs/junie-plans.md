@@ -66,9 +66,20 @@ A sidebar menu was successfully created to facilitate navigation to various page
 - Initialize Vitepress in docs directory.
 - Config routes for MD pages
 ### Junie Plan
-
+1. Understand what Vitepress is and its requirements
+2. Check if Vitepress is already installed in the project
+3. Install Vitepress in the docs directory
+4. Initialize Vitepress configuration
+5. Configure routes for MD pages
+- Examine the config.ts file
+- Check what MD files are available in the docs directory
+- Check what's in the conversion-logs directory
+- Update the configuration for MD pages
+6. Update .gitignore file as recommended
+7. Test the Vitepress setup
+8. Submit the changes
 ### Summary
-
+Vitepress was successfully initialized in the docs directory, and routes for the Markdown pages were configured in the Vitepress configuration file. The implementation is error-free, and the development server is running correctly, confirming that the setup works as intended.
 ***
 ### Prompt #5
 - Rename demo-page.ts to demo-app.ts
