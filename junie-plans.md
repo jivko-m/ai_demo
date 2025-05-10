@@ -1,3 +1,42 @@
+## Refactor select.js to TypeScript with tests and logging
+### Prompt #1
+Refactor select.js to TypeScrypt
+- Use ctrl-button and tests as example
+- Use Lit 3 controllers to segregate functionality from UI  - use decorators where possible
+- Create unit tests for SelectController
+- Create browser tests for ctrl-select UI
+- Run all tests with coverage
+- Log all the steps you make including terminal commands and code differences in MD file called select-conversion-log
+
+### Junie Plan
+1. Examine the current select.js file to understand its functionality
+2. Look at button-controller.ts and related files as examples
+3. Examine the test files for button to understand the testing approach
+4. Look at the button component to understand how it uses the controller
+5. Look at browser tests pattern by examining render-if.spec.ts
+6. Create select-conversion-log.md to document the process
+7. Refactor select.js to TypeScript:
+- Create a SelectController class
+- Examine select-styles.js
+- Look at button-styles.ts as an example
+- Convert select-styles.js to TypeScript
+- Update the UI component to use the controller
+- Use Lit 3 decorators where appropriate
+8. Create unit tests for SelectController
+9. Create browser tests for ctrl-select UI
+10. Create a test page for browser tests
+11. Update the browser tests to use the new test page
+12. Fix the failing tests in SelectController
+13. Run unit tests with coverage
+14. Fix the import issue in select-styles.js
+15. Run browser tests again
+16. Update the conversion log with all steps and code differences
+17. Submit the final solution
+
+### Summary
+A `select.js` component was successfully refactored to TypeScript, creating a `SelectController` to manage functionality separately from the UI. All unit and browser tests were created and executed, with the implementation being error-free and achieving high test coverage. The conversion log documents all steps taken during the process.
+***
+
 ## Resolve Test Failures in Code
 ### Prompt #1
 - fix not passing tests

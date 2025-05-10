@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ctrl-Select Component Test</title>
+  <script type="module">
+    import '../../src/components/select.ts';
+  </script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1, h2 {
+      color: #333;
+    }
+    .test-container {
+      margin-top: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    ctrl-select {
+      display: block;
+      margin: 10px 0;
+      width: 200px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>Ctrl-Select Component Test Page</h1>
+  <p>This page tests the ctrl-select component in a browser environment.</p>
+  
+  <div class="test-container">
+    <h2>Basic Select</h2>
+    <label for="test-select">Standard Select:</label>
+    <ctrl-select id="test-select">
+      <ctrl-option value="option1" selected>Option 1</ctrl-option>
+      <ctrl-option value="option2">Option 2</ctrl-option>
+      <ctrl-option value="option3">Option 3</ctrl-option>
+    </ctrl-select>
+    
+    <label for="disabled-select">Disabled Select:</label>
+    <ctrl-select id="disabled-select" disabled>
+      <ctrl-option>Disabled Select</ctrl-option>
+    </ctrl-select>
+    
+    <label for="readonly-select">Readonly Select:</label>
+    <ctrl-select id="readonly-select" readonly>
+      <ctrl-option>Readonly Select</ctrl-option>
+    </ctrl-select>
+    
+    <label for="nullable-select">Nullable Select:</label>
+    <ctrl-select id="nullable-select" nullable>
+      <ctrl-option value="option1" selected>Option 1</ctrl-option>
+      <ctrl-option value="option2">Option 2</ctrl-option>
+    </ctrl-select>
+  </div>
+  
+  <div class="test-container">
+    <h2>Data Source Select</h2>
+    <label for="data-select">Data Source Select:</label>
+    <ctrl-select id="data-select" display-member="label" value-member="value"></ctrl-select>
+    
+    <script>
+      // Set up data source for the data-select
+      document.addEventListener('DOMContentLoaded', () => {
+        const dataSelect = document.getElementById('data-select');
+        if (dataSelect) {
+          dataSelect.dataSource = [
+            { label: 'Data Option 1', value: 'data1' },
+            { label: 'Data Option 2', value: 'data2' },
+            { label: 'Data Option 3', value: 'data3' }
+          ];
+        }
+      });
+    </script>
+  </div>
+  
+  <div class="test-container">
+    <h2>Event Testing</h2>
+    <label for="event-select">Event Select:</label>
+    <ctrl-select id="event-select">
+      <ctrl-option value="event1" selected>Event Option 1</ctrl-option>
+      <ctrl-option value="event2">Event Option 2</ctrl-option>
+    </ctrl-select>
+    
+    <div id="event-output">No events yet</div>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const eventSelect = document.getElementById('event-select');
+        const eventOutput = document.getElementById('event-output');
+        
+        if (eventSelect && eventOutput) {
+          eventSelect.addEventListener('change', (e) => {
+            eventOutput.textContent = `Change event: ${e.detail ? JSON.stringify(e.detail) : 'No detail'}`;
+          });
+          
+          eventSelect.addEventListener('value-changed', () => {
+            eventOutput.textContent += `\nValue changed event`;
+          });
+        }
+      });
+    </script>
+  </div>
+</body>
+</html>
