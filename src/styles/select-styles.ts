@@ -1,4 +1,4 @@
-import { css } from "../../web-component";
+import { css } from 'lit';
 
 export const selectStyles = css`
     :host {
@@ -16,8 +16,7 @@ export const selectStyles = css`
         height: var(--floated-slotted-elm-inner-padding);
         line-height: 1.25rem;
         padding-right: 15px; 
-
-        }
+    }
 
     .ctrl-text {
         display: block; 
@@ -25,7 +24,7 @@ export const selectStyles = css`
         text-overflow: clip;
         white-space: nowrap;
         /*line-height: 1.2em;*/
-        }
+    }
 
     .draficon-arr-down {
         font-size: 1em;
@@ -60,5 +59,4 @@ export const selectStyles = css`
     :host(.focus) {
         box-shadow: var(--focus-border);
     }
-
 `;
