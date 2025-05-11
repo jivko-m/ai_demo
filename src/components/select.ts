@@ -1,7 +1,7 @@
 import { html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import { when } from 'lit/directives/when.js';
-import { renderIf, WebComponent } from '../web-component';
+import { WebComponent } from '../web-component';
 import { selectStyles } from '../styles/select-styles';
 import { SelectController } from '../controllers/select-controller';
 
@@ -34,9 +34,14 @@ export class CtrlSelect extends WebComponent {
 
   constructor() {
     super();
-    
+
     // Initialize the select controller
     this.selectController = new SelectController(this);
+
+    // Initialize selectedItem if not set
+    if (this.selectedIndex >= 0 && this.dataSource.length > 0) {
+      this.selectedItem = this.dataSource[this.selectedIndex];
+    }
   }
 
   // Delegate validation methods to the controller
@@ -61,15 +66,48 @@ export class CtrlSelect extends WebComponent {
   }
 
   // Lifecycle methods
+  connectedCallback(): void {
+    super.connectedCallback();
+
+    // Process ctrl-option elements
+    const ctrlOptions = Array.from(this.querySelectorAll('ctrl-option'));
+    if (ctrlOptions.length > 0) {
+      this.dataSource = ctrlOptions.map(option => ({
+        value: option.getAttribute('value') || option.textContent,
+        label: option.textContent,
+        selected: option.hasAttribute('selected')
+      }));
+
+      // Set initial selection
+      const selectedIndex = this.dataSource.findIndex(item => item.selected);
+      if (selectedIndex >= 0) {
+        this.selectedIndex = selectedIndex;
+        this.selectedItem = this.dataSource[selectedIndex];
+        this.value = this.selectedItem.value;
+      }
+    }
+  }
+
   firstUpdated(): void {
     super.firstUpdated();
     this.$select = this.shadowRoot?.querySelector('select') as HTMLSelectElement;
     this.selectController.hostFirstUpdated(this.shadowRoot!);
+
+    // Add options to the select element
+    if (this.$select && this.dataSource.length > 0) {
+      this.selectController.addOptions();
+    }
   }
 
   updated(changedProperties: Map<string, any>): void {
     super.updated(changedProperties);
     this.selectController.hostUpdated(changedProperties);
+
+    // Update options when dataSource or readonly changes
+    if ((changedProperties.has('dataSource') || changedProperties.has('readonly')) && 
+        this.$select && !this.readonly) {
+      this.selectController.addOptions();
+    }
   }
 
   // Handle change events
@@ -84,13 +122,53 @@ export class CtrlSelect extends WebComponent {
 
   // Render method
   render() {
-    const label = this.displayMember && this.selectedItem
-      ? this.selectedItem[this.displayMember]
-      : this.selectedItem;
+    // Determine the label to display
+    let label = '';
+
+    // If we have a selectedItem, use it for the label
+    if (this.selectedItem) {
+      if (this.displayMember && this.selectedItem[this.displayMember] !== undefined) {
+        label = this.selectedItem[this.displayMember];
+      } else if (typeof this.selectedItem === 'object' && this.selectedItem.label) {
+        label = this.selectedItem.label;
+      } else if (typeof this.selectedItem === 'object') {
+        label = JSON.stringify(this.selectedItem);
+      } else {
+        label = String(this.selectedItem);
+      }
+    } 
+    // If we have text property set, use it
+    else if (this.text) {
+      label = this.text;
+    }
+    // For disabled select with no selectedItem, use the first option's text
+    else if (this.disabled && this.dataSource.length > 0) {
+      label = this.dataSource[0].label || String(this.dataSource[0]);
+    }
+
+    // Create option elements for the select
+    const options = [];
+    if (this.nullable) {
+      options.push(html`<option value=""></option>`);
+    }
+
+    // Add options from dataSource
+    for (let i = 0; i < this.dataSource.length; i++) {
+      const item = this.dataSource[i];
+      const value = this.valueMember && item[this.valueMember] !== undefined 
+        ? item[this.valueMember] 
+        : item.value !== undefined ? item.value : i;
+      const text = this.displayMember && item[this.displayMember] !== undefined
+        ? item[this.displayMember]
+        : item.label !== undefined ? item.label : String(item);
+      const selected = i === this.selectedIndex;
+
+      options.push(html`<option value="${value}" ?selected=${selected}>${text}</option>`);
+    }
 
     return html`
       <span class="ctrl-inner ctrl-btn">
-        <span class="ctrl-text">${label}
+        <span class="ctrl-text">${label}</span>
         <span class="draficon-arr-down"></span>
       </span>
       ${when(!this.readonly, 
@@ -100,8 +178,8 @@ export class CtrlSelect extends WebComponent {
             .selectedIndex=${this.selectedIndex}
             @change=${this.handleChange}
             ?disabled=${this.disabled}
-            ?required=${this.required}
-            ?readonly=${this.readonly}>
+            ?required=${this.required}>
+            ${options}
           </select>
         `,
         () => html``

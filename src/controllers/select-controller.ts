@@ -147,10 +147,17 @@ export class SelectController implements ReactiveController {
   handleChange(e: Event): void {
     const target = e.target as HTMLSelectElement;
     this.host.selectedIndex = target.selectedIndex;
-    this.host.selectedItem = this.host.dataSource[target.selectedIndex];
-    this.host.value = this.host.valueMember 
-      ? this.host.selectedItem[this.host.valueMember] 
-      : this.host.selectedItem;
+
+    // Handle nullable case with empty selection
+    if (this.host.nullable && target.selectedIndex === 0 && target.value === '') {
+      this.host.selectedItem = null;
+      this.host.value = null;
+    } else {
+      this.host.selectedItem = this.host.dataSource[target.selectedIndex];
+      this.host.value = this.host.valueMember && this.host.selectedItem
+        ? this.host.selectedItem[this.host.valueMember] 
+        : this.host.selectedItem;
+    }
 
     this.host.raiseEvent('change', this.host.selectedItem);
   }
