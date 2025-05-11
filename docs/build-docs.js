@@ -118,8 +118,8 @@ function processDirectory(directory, outputDir) {
 
 // Main function
 function main() {
-  const docsDir = path.resolve(__dirname, '../../');
-  const outputDir = path.resolve(__dirname, '../../../src/docs');
+  const docsDir = path.resolve(__dirname, './');
+  const outputDir = path.resolve(__dirname, '../src/docs');
 
   // Process all Markdown files in the docs directory
   processDirectory(docsDir, outputDir);

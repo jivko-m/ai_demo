@@ -15,7 +15,7 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "docs:build:clean": "node docs/.vitepress/theme/custom-build.js"
+    "docs:build:clean": "node docs/build-docs.js"
   },
   "dependencies": {
     "lit": "^3.3.0"
