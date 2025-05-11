@@ -11,11 +11,10 @@ export class LogsPage extends LitElement {
 
   // List of available HTML files
   private logFiles = [
-    { id: 'markdown-examples', label: 'Markdown Examples', path: '/src/docs/markdown-examples.html' },
+    { id: 'junie-plans', label: 'Junie Plans', path: '/src/docs/junie-plans.html' },
     { id: 'ctrl-button', label: 'Button Component', path: '/src/docs/conversion-logs/ctrl-button.html' },
     { id: 'ctrl-select', label: 'Select Component', path: '/src/docs/conversion-logs/ctrl-select.html' },
-    { id: 'junie-plans', label: 'Junie Plans', path: '/src/docs/junie-plans.html' },
-    { id: 'api-examples', label: 'API Examples', path: '/src/docs/api-examples.html' }
+    { id: 'style-refactor', label: 'Style Refactor', path: '/src/docs/style-refactoring-decision.html' },
   ];
 
   render() {

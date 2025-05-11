@@ -7,7 +7,6 @@ import './components/sidebar-menu';
 import './pages/home-page';
 import './pages/buttons-page';
 import './pages/selects-page';
-import './pages/about-page';
 import './pages/logs-page';
 
 /**
@@ -68,8 +67,6 @@ export class DemoApp extends LitElement {
         return html`<buttons-page></buttons-page>`;
       case 'selects':
         return html`<selects-page></selects-page>`;
-      case 'about':
-        return html`<about-page></about-page>`;
       case 'logs':
         return html`<logs-page></logs-page>`;
       case 'playwright':

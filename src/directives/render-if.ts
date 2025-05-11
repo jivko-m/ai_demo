@@ -14,8 +14,10 @@ class RenderIfDirective extends Directive {
     }
   }
 
-  render(condition: boolean, template: () => TemplateResult): TemplateResult {
-    return condition ? template() : html`${nothing}`;
+  render(condition: boolean, template: TemplateResult | (() => TemplateResult)): TemplateResult {
+    return condition 
+      ? (typeof template === 'function' ? template() : template) 
+      : html`${nothing}`;
   }
 }
 
