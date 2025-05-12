@@ -34,6 +34,10 @@ jobs:
            result-encoding: string
       - name: Install Dependencies
         run: npm install
+      - name: Run Unit Tests
+        run: npm run test:coverage
+      - name: Run Playwright Tests
+        run: npm run test:browser
       - name: Build Project
         run: npm run build
       - name: Build And Deploy
