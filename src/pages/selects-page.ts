@@ -102,7 +102,10 @@ export class SelectsPage extends LitElement {
   }
 
   private _onSelectChange(e: CustomEvent) {
-    this.selectedValue = e.target.value;
+    const target = e.target as HTMLSelectElement;
+    if (target) {
+      this.selectedValue = target.value;
+    }
     this.selectedItem = e.detail;
     console.log('Select changed:', e.detail);
   }

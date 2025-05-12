@@ -14,6 +14,8 @@ export interface ISelectControllerHost extends ReactiveControllerHost {
   selectedIndex: number;
   selectedItem?: any;
   raiseEvent: (type: string, data?: Record<string, unknown>) => boolean;
+  querySelectorAll: (selectors: string) => NodeListOf<Element>;
+  shadowRoot: ShadowRoot | null;
 }
 
 /**
@@ -56,7 +58,15 @@ export class SelectController implements ReactiveController {
   }
 
   /** Called when the host is updated */
-  hostUpdated(changedProperties: Map<string, any>): void {
+  hostUpdated(): void {
+    // Standard ReactiveController method with no parameters
+  }
+
+  /**
+   * Process changes when host is updated
+   * Called from the host's updated method
+   */
+  processChanges(changedProperties: Map<string, any>): void {
     if (changedProperties.has('dataSource')) {
       this.setSelected();
       this.addOptions();
@@ -76,8 +86,8 @@ export class SelectController implements ReactiveController {
   /**
    * Converts ctrl-option elements to data source objects
    */
-  private optionsToDataSource(list: Element[]): any[] {
-    return list.map((l) => ({
+  private optionsToDataSource(list: Element[] | NodeListOf<Element>): any[] {
+    return Array.from(list).map((l) => ({
       value: l.getAttribute('value') || l.textContent,
       label: l.textContent,
       selected: l.hasAttribute('selected')

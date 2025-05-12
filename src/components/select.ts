@@ -8,7 +8,8 @@ import { SelectController } from '../controllers/select-controller';
 @customElement('ctrl-select')
 export class CtrlSelect extends WebComponent {
   static get styles() {
-    return [super.styles, selectStyles];
+    const parentStyles = Array.isArray(super.styles) ? super.styles : [super.styles];
+    return [...parentStyles, selectStyles];
   }
 
   // Properties
@@ -88,8 +89,8 @@ export class CtrlSelect extends WebComponent {
     }
   }
 
-  firstUpdated(): void {
-    super.firstUpdated();
+  firstUpdated(changedProperties: Map<string, any>): void {
+    super.firstUpdated(changedProperties);
     this.$select = this.shadowRoot?.querySelector('select') as HTMLSelectElement;
     this.selectController.hostFirstUpdated(this.shadowRoot!);
 
@@ -101,7 +102,7 @@ export class CtrlSelect extends WebComponent {
 
   updated(changedProperties: Map<string, any>): void {
     super.updated(changedProperties);
-    this.selectController.hostUpdated(changedProperties);
+    this.selectController.processChanges(changedProperties);
 
     // Update options when dataSource or readonly changes
     if ((changedProperties.has('dataSource') || changedProperties.has('readonly')) && 
@@ -147,7 +148,7 @@ export class CtrlSelect extends WebComponent {
     }
 
     // Create option elements for the select
-    const options = [];
+    const options: ReturnType<typeof html>[] = [];
     if (this.nullable) {
       options.push(html`<option value=""></option>`);
     }
