@@ -9,7 +9,8 @@ import { ButtonController } from '../controllers/button-controller';
 export class CtrlButton extends WebComponent {
 
   static get styles() {
-    return [super.styles, buttonStyles];
+    const parentStyles = Array.isArray(super.styles) ? super.styles : [super.styles];
+    return [...parentStyles, buttonStyles];
   }
 
   @property({type: String}) name = '';
@@ -19,9 +20,10 @@ export class CtrlButton extends WebComponent {
   @property({type: String}) action = '';
   @property({type: String}) path = '';
   @property({type: String}) text = '';
-  @property({type: String}) title: string | undefined = undefined;
+  @property({type: String}) title: string = '';
 
   // Button controller to handle button functionality
+  // @ts-ignore: Used for event handling and functionality, even if not directly referenced
   private buttonController: ButtonController;
 
   constructor() {
@@ -36,7 +38,7 @@ export class CtrlButton extends WebComponent {
   }
 
   firstUpdated(): void {
-    super.title = this.title !== undefined ? this.title : this.text;
+    super.title = this.title || this.text;
   }
 
   render() {

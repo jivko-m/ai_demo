@@ -30,6 +30,7 @@ export class DemoApp extends LitElement {
   currentPage = 'home';
 
   // Sample data for the select component
+  /* Unused for now
   private fruits = [
     { value: 'apple', label: 'Apple' },
     { value: 'banana', label: 'Banana' },
@@ -37,6 +38,7 @@ export class DemoApp extends LitElement {
     { value: 'orange', label: 'Orange' },
     { value: 'strawberry', label: 'Strawberry' }
   ];
+  */
 
   render() {
     return html`
@@ -90,6 +92,7 @@ export class DemoApp extends LitElement {
     console.log('Page changed to:', this.currentPage);
   }
 
+  /* Unused event handlers - kept for future reference
   private _onBasicButtonClick() {
     this.buttonClickCount++;
   }
@@ -100,10 +103,15 @@ export class DemoApp extends LitElement {
   }
 
   private _onSelectChange(e: CustomEvent) {
-    this.selectedValue = e.target.value;
+    // Fixed type safety issues
+    const target = e.target as HTMLSelectElement;
+    if (target) {
+      this.selectedValue = target.value;
+    }
     this.selectedItem = e.detail;
     console.log('Select changed:', e.detail);
   }
+  */
 
   static styles = css`
     :host {

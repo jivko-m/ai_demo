@@ -3,8 +3,10 @@ export interface IButtonControllerHost extends ReactiveControllerHost {
   disabled: boolean;
   type: string;
   action: string;
-  path:string;
+  path: string;
   raiseEvent: (type: string, data?: Record<string, unknown>) => boolean;
+  addEventListener: (type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions) => void;
+  appendChild: (node: Node) => Node;
 }
 
 /**
@@ -17,12 +19,14 @@ export class ButtonController implements ReactiveController {
 
   constructor(host: IButtonControllerHost) {
     this.host = host;
-    
+
     // Register a controller with the host
     this.host.addController(this);
 
     // Add click event listener
-    this.host.addEventListener('click', this.handleClick.bind(this), { capture: true });
+    this.host.addEventListener('click', ((e: Event) => {
+      this.handleClick(e as MouseEvent);
+    }) as EventListener, { capture: true });
   }
 
   /** Called when the host is connected to the DOM */
@@ -37,7 +41,7 @@ export class ButtonController implements ReactiveController {
 
   /** Called when the host is disconnected from the DOM */
   hostDisconnected(): void {}
-  
+
   private createSubmitButton(): void {
     if (this.host.type === 'submit') {
       const btnSubmit = document.createElement('button');
