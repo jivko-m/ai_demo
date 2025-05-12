@@ -8,7 +8,7 @@ export default defineConfig({
     exclude: ['tests/browser/**/*'],
     coverage: {
       provider: 'v8',
-      reporter: ['text', 'json', 'html'],
+      reporter: ['html'],
       include: ['src/**/*.ts'],
       exclude: ['**/*.d.ts', '**/*.test.ts', '**/*.spec.ts'],
     },

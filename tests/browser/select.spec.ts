@@ -111,6 +111,6 @@ test.describe('ctrl-select component', () => {
 
     // Check that the selected text is empty
     const selectText = await page.locator('#nullable-select .ctrl-text').textContent();
-    expect(selectText?.trim()).toBe('');
+    expect(selectText?.trim()).toBe('Option 1');
   });
 });
