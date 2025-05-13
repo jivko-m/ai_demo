@@ -17,7 +17,6 @@ export class CtrlMDView extends WebComponent {
         { id: 'ctrl-select', label: 'Select Component', action: async() => import('../docs/ctrl-select.md') },
         { id: 'style-refactor', label: 'Style Refactor', action: async() => import('../docs/style-refactoring-decision.md') },
     ];
-
     constructor() {
         super();
     }
