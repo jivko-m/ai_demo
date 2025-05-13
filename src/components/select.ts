@@ -1,190 +1,272 @@
-import { html } from 'lit';
+﻿import { selectStyles } from '../styles/select-styles';
+import { WebComponent, html, renderIf } from '../web-component';
 import { customElement, property, state } from 'lit/decorators.js';
-import { when } from 'lit/directives/when.js';
-import { WebComponent } from '../web-component';
-import { selectStyles } from '../styles/select-styles';
-import { SelectController } from '../controllers/select-controller';
+
+const optionsToDataSource = (list: HTMLElement[]): Array<{
+  value: string;
+  label: string;
+  selected: boolean;
+}> => list.map((l) => ({
+  value: l.getAttribute('value') || l.innerText,
+  label: l.innerText,
+  selected: l.hasAttribute('selected')
+}));
+
+interface DataSourceItem {
+  [key: string]: any;
+  disabled?: boolean;
+  inactive?: boolean;
+}
 
 @customElement('ctrl-select')
 export class CtrlSelect extends WebComponent {
-  static get styles() {
-    const parentStyles = Array.isArray(super.styles) ? super.styles : [super.styles];
-    return [...parentStyles, selectStyles];
+  static styles = selectStyles;
+
+  @property({ type: String }) name = '';
+  @property({ type: Boolean, reflect: true }) disabled = false;
+  @property({ type: Boolean }) required = false;
+  @property({ type: Boolean }) readonly = false;
+  @property({ type: Boolean, reflect: true }) nullable = false;
+  @property({ type: String }) text = '';
+  @property({ attribute: 'display-member' }) displayMember?: string;
+  @property({ attribute: 'value-member' }) valueMember?: string;
+  @property({ attribute: 'selected-index', type: Number }) 
+  get selectedIndex(): number {
+    return this._selectedIndex;
+  }
+  set selectedIndex(data: number) {
+    const oldVal = this._selectedIndex;
+    this._selectedIndex = data;
+
+    if (this.$select) this.$select.selectedIndex = data;
+
+    this.setSelected();
+
+    this.requestUpdate('selectedIndex', oldVal);
   }
 
-  // Properties
-  @property({ type: String }) name = '';
-  @property({ type: String }) text = '';
-  @property({ type: Array, attribute: 'data-source' }) dataSource: any[] = [];
-  @property({ type: String, attribute: 'display-member' }) displayMember?: string;
-  @property({ type: String, attribute: 'value-member' }) valueMember?: string;
-  @property({ type: String }) value: any = null;
-  @state() asyncContent = false;
+  @property({ type: String })
+  get value(): any {
+    // When nullable is true and selectedIndex is -1 (no item selected), return null
+    if (this.nullable && this.selectedIndex === -1) {
+      return null;
+    }
+    return this._value;
+  }
+  set value(data: any) {
+    if (!this.nullable && data == null)
+      return;
 
-  @property({ type: Boolean, reflect: true }) disabled = false;
-  @property({ type: Boolean, reflect: true }) required = false;
-  @property({ type: Boolean, reflect: true }) readonly = false;
-  @property({ type: Boolean, reflect: true }) nullable = false;
+    const oldVal = this._value;
+    this._value = data;
 
-  @property({ type: Number, attribute: 'selected-index' }) selectedIndex = 0;
-  @property({ attribute: false }) selectedItem?: any;
+    if (this.$select)
+      this.$select.value = data;
 
-  // Select controller to handle select functionality
-  private selectController: SelectController;
-  private $select?: HTMLSelectElement;
+    this.setSelected();
+
+    this.requestUpdate('value', oldVal);
+  }
+
+  @property({ attribute: 'data-source', type: Array })
+  get dataSource(): Array<DataSourceItem> {
+    return this._dataSource;
+  }
+  set dataSource(data: Array<DataSourceItem>) {
+    if (data == null)
+      return;
+
+    if (this.nullable && data.length > 0) {
+      if (this.displayMember && this.valueMember) {
+        const nullItem: DataSourceItem = { [this.displayMember]: '', [this.valueMember]: null };
+        data = [nullItem, ...data];
+      } else {
+        data = ['', ...data];
+      }
+
+      // When nullable is true, set selectedIndex to -1 and value to null
+      this._selectedIndex = -1;
+      this._value = null;
+      this.selectedItem = null;
+    }
+
+    const oldVal = this._dataSource;
+    this._dataSource = data;
+
+    this.requestUpdate('dataSource', oldVal);
+  }
+
+  @state() selectedItem: DataSourceItem | null = null;
+  @state() private _selectedIndex = 0;
+  @state() private _value: any = null;
+  @state() private _dataSource: Array<DataSourceItem> = [];
+
+  private $select: HTMLSelectElement | null = null;
+  private $input: HTMLSelectElement | null = null;
 
   constructor() {
     super();
-
-    // Initialize the select controller
-    this.selectController = new SelectController(this);
-
-    // Initialize selectedItem if not set
-    if (this.selectedIndex >= 0 && this.dataSource.length > 0) {
-      this.selectedItem = this.dataSource[this.selectedIndex];
-    }
-  }
-
-  // Delegate validation methods to the controller
-  get willValidate(): boolean {
-    return this.selectController.willValidate;
-  }
-
-  setCustomValidity(msg: string): void {
-    this.selectController.setCustomValidity(msg);
-  }
-
-  checkValidity(): boolean {
-    return this.selectController.checkValidity();
-  }
-
-  get validity(): ValidityState {
-    return this.selectController.validity;
-  }
-
-  get validationMessage(): string {
-    return this.selectController.validationMessage;
-  }
-
-  // Lifecycle methods
-  connectedCallback(): void {
-    super.connectedCallback();
-
-    // Process ctrl-option elements
-    const ctrlOptions = Array.from(this.querySelectorAll('ctrl-option'));
-    if (ctrlOptions.length > 0) {
-      this.dataSource = ctrlOptions.map(option => ({
-        value: option.getAttribute('value') || option.textContent,
-        label: option.textContent,
-        selected: option.hasAttribute('selected')
-      }));
-
-      // Set initial selection
-      const selectedIndex = this.dataSource.findIndex(item => item.selected);
-      if (selectedIndex >= 0) {
-        this.selectedIndex = selectedIndex;
-        this.selectedItem = this.dataSource[selectedIndex];
-        this.value = this.selectedItem.value;
-      }
-    }
+    this.dataSource = [];
+    this.displayMember = undefined;
+    this.valueMember = undefined;
+    this.value = null;
+    this.selectedIndex = this.nullable ? -1 : 0;
+    this.selectedItem = null;
   }
 
   firstUpdated(changedProperties: Map<string, any>): void {
-    super.firstUpdated(changedProperties);
-    this.$select = this.shadowRoot?.querySelector('select') as HTMLSelectElement;
-    this.selectController.hostFirstUpdated(this.shadowRoot!);
-
-    // Add options to the select element
-    if (this.$select && this.dataSource.length > 0) {
-      this.selectController.addOptions();
+    const ctrlOptions = Array.from(this.querySelectorAll('ctrl-option'));
+    if (ctrlOptions.length > 0) {
+      this.dataSource = optionsToDataSource(ctrlOptions);
+      this.valueMember = 'value';
+      this.displayMember = 'label';
+      this.selectedIndex = this.dataSource.findIndex((ds) => ds.selected);
     }
+
+    this.$input = this.shadowRoot?.querySelector('select') || null;
+    this.$select = this.$input;
   }
 
   updated(changedProperties: Map<string, any>): void {
     super.updated(changedProperties);
-    this.selectController.processChanges(changedProperties);
 
-    // Update options when dataSource or readonly changes
-    if ((changedProperties.has('dataSource') || changedProperties.has('readonly')) && 
-        this.$select && !this.readonly) {
-      this.selectController.addOptions();
+    if (changedProperties.has('dataSource')) {
+      this.setSelected();
+      this.addOptions();
+    }
+
+    if (changedProperties.has('readonly')) {
+      this.$select = this.shadowRoot?.querySelector('select') || null;
+      this.addOptions();
+    }
+
+    if (changedProperties.has('nullable') && this.nullable) {
+      this._value = null;
+      this.selectedItem = null;
+      this._selectedIndex = -1;
+    }
+
+    if ((changedProperties.has('value')
+      || changedProperties.has('selectedIndex')) && this.selectedIndex >= 0) {
+      this.setSelected();
+      this.raiseEvent('value-changed');
     }
   }
 
-  // Handle change events
-  private handleChange(e: Event): void {
-    this.selectController.handleChange(e);
+  addOptions(): void {
+    if (this.$select) {
+      this.clearOptions();
+
+      this.dataSource.forEach((ds, index) => {
+        let option = this.renderOption(ds, index);
+        if (this.$select) {
+          this.$select.appendChild(option);
+        }
+      });
+
+      this.$select.selectedIndex = this.selectedIndex;
+    }
   }
 
-  // Clear selection
-  clearSelection(): void {
-    this.selectController.clearSelection();
+  clearOptions(): void {
+    if (this.$select) {
+      this.$select.innerHTML = '';
+    }
   }
 
-  // Render method
+  renderOption(ds: DataSourceItem, index: number): HTMLOptionElement {
+    const optionLabel = (opt: DataSourceItem): string => 
+      (this.displayMember ? String(opt[this.displayMember]) : String(opt));
+
+    const option = document.createElement('option');
+    const val = this.valueMember ? ds[this.valueMember] : ds;
+
+    if (val != null) {
+      option.setAttribute('value', String(val));
+    }
+
+    if (this.selectedIndex === index) {
+      option.setAttribute('selected', 'selected');
+    }
+
+    if (ds.disabled) {
+      option.setAttribute('disabled', String(ds.disabled));
+    }
+
+    if (ds.inactive) {
+      option.setAttribute('class', 'not-present');
+    }
+
+    const textNode = document.createTextNode(optionLabel(ds));
+    option.appendChild(textNode);
+
+    return option;
+  }
+
   render() {
-    // Determine the label to display
-    let label = '';
-
-    // If we have a selectedItem, use it for the label
-    if (this.selectedItem) {
-      if (this.displayMember && this.selectedItem[this.displayMember] !== undefined) {
-        label = this.selectedItem[this.displayMember];
-      } else if (typeof this.selectedItem === 'object' && this.selectedItem.label) {
-        label = this.selectedItem.label;
-      } else if (typeof this.selectedItem === 'object') {
-        label = JSON.stringify(this.selectedItem);
-      } else {
-        label = String(this.selectedItem);
-      }
-    } 
-    // If we have text property set, use it
-    else if (this.text) {
-      label = this.text;
-    }
-    // For disabled select with no selectedItem, use the first option's text
-    else if (this.disabled && this.dataSource.length > 0) {
-      label = this.dataSource[0].label || String(this.dataSource[0]);
-    }
-
-    // Create option elements for the select
-    const options: ReturnType<typeof html>[] = [];
-    if (this.nullable) {
-      options.push(html`<option value=""></option>`);
-    }
-
-    // Add options from dataSource
-    for (let i = 0; i < this.dataSource.length; i++) {
-      const item = this.dataSource[i];
-      const value = this.valueMember && item[this.valueMember] !== undefined 
-        ? item[this.valueMember] 
-        : item.value !== undefined ? item.value : i;
-      const text = this.displayMember && item[this.displayMember] !== undefined
-        ? item[this.displayMember]
-        : item.label !== undefined ? item.label : String(item);
-      const selected = i === this.selectedIndex;
-
-      options.push(html`<option value="${value}" ?selected=${selected}>${text}</option>`);
-    }
+    const label = this.displayMember && this.selectedItem
+      ? this.selectedItem[this.displayMember]
+      : this.selectedItem;
 
     return html`
       <span class="ctrl-inner ctrl-btn">
-        <span class="ctrl-text">${label}</span>
+        <span class="ctrl-text">${label}
         <span class="draficon-arr-down"></span>
       </span>
-      ${when(!this.readonly, 
-        () => html`
-          <select
-            .value=${this.value}
-            .selectedIndex=${this.selectedIndex}
-            @change=${this.handleChange}
-            ?disabled=${this.disabled}
-            ?required=${this.required}>
-            ${options}
-          </select>
-        `,
-        () => html``
-      )}
+      ${renderIf(!this.readonly, () => html`
+        <select
+          .value=${this.value}
+          .selectedIndex=${this.selectedIndex}
+          @change=${this.handleChange}
+          ?disabled=${this.disabled}
+          ?required=${this.required}
+          ?readonly=${this.readonly}>
+        </select>
+      `)}
     `;
+  }
+
+  handleChange(e: Event): void {
+    const target = e.target as HTMLSelectElement;
+    this.selectedIndex = target.selectedIndex;
+    this.selectedItem = this.dataSource[target.selectedIndex];
+    this.value = this.valueMember && this.selectedItem 
+      ? this.selectedItem[this.valueMember] 
+      : this.selectedItem;
+
+    this.raiseEvent('change', this.selectedItem);
+  }
+
+  setSelected(): void {
+    // selection is set either by value or selected-index
+    if (this.value != null) {
+      this._selectedIndex = this.dataSource.findIndex(ds => 
+        (this.valueMember ? ds[this.valueMember] : ds) == this.value);
+      this.selectedItem = this._selectedIndex != -1 ? this.dataSource[this._selectedIndex] : null;
+    } else if (this.nullable && this.selectedIndex === -1) {
+      // When nullable is true and selectedIndex is -1, ensure selectedItem and _value are null
+      this.selectedItem = null;
+      this._value = null;
+    } else {
+      // Otherwise, set selectedItem and _value based on selectedIndex
+      this.selectedItem = this.dataSource[this.selectedIndex];
+      this._value = (this.valueMember && this.selectedItem)
+        ? this.selectedItem[this.valueMember]
+        : this.selectedItem;
+    }
+
+    this.raiseEvent('value-changed');
+  }
+
+  clearSelection(): void {
+    this.selectedIndex = -1;
+    this.selectedItem = null;
+    this.value = null;
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'ctrl-select': CtrlSelect;
   }
 }

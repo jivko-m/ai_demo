@@ -3,6 +3,7 @@ import { LitElement, html, css, nothing } from 'lit';
 // Import styles with type assertions
 import { coreStyles } from './styles/core-styles.js';
 import { skinStyles } from './styles/skin-styles.js';
+import {demoSkin} from "./styles/demo-skin.ts";
 
 export { html, css, nothing };
 export { renderIf } from './directives/render-if';
@@ -13,15 +14,18 @@ export class WebComponent extends LitElement {
 	// Property to track disabled state
 	disabled = false;
 
-	static get styles() {
-		return [coreStyles, skinStyles];
-	}
-
-	constructor() {
-		super();
-
+	static styles = [coreStyles, skinStyles, demoSkin];
+	
+	connectedCallback() {
+		super.connectedCallback();
 		this.addEventListener('focus', () => this.focus());
 		this.addEventListener('blur', () => this.blur());
+	}
+	
+	disconnectedCallback() {
+		super.disconnectedCallback();
+		this.removeEventListener('focus', () => this.focus());
+		this.removeEventListener('blur', () => this.blur());
 	}
 
 	focus(): void {

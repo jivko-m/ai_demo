@@ -1,4 +1,4 @@
-import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, test, expect, vi, afterEach } from 'vitest';
 import { html, fixture, fixtureCleanup } from '@open-wc/testing-helpers';
 
 // Mock the styles to avoid font import issues
@@ -10,31 +10,25 @@ vi.mock('../../src/styles/skin-styles', () => ({
   skinStyles: { cssText: '/* Mocked skin styles */' }
 }));
 
-vi.mock('../../src/styles/button-styles', () => ({
-  buttonStyles: { cssText: '/* Mocked button styles */' }
-}));
 
 // Import the component after mocking
-import '../../src/components/button';
 import { CtrlButton } from '../../src/components/button';
 
 describe('CtrlButton', () => {
   let element: CtrlButton;
-
-  beforeEach(async () => {
-    element = await fixture(html`<ctrl-button></ctrl-button>`) as CtrlButton;
-  });
-
+  
   afterEach(() => {
     fixtureCleanup();
   });
 
-  test('should be defined', () => {
+  test('should be defined', async () => {
+    const element = await fixture(html`<ctrl-button></ctrl-button>`) as CtrlButton;
     expect(element).toBeDefined();
     expect(customElements.get('ctrl-button')).toBeDefined();
   });
 
-  test('should render with default properties', () => {
+  test('should render with default properties', async () => {
+    const element = await fixture(html`<ctrl-button></ctrl-button>`) as CtrlButton;
     expect(element.disabled).toBe(false);
     expect(element.icon).toBe('');
     expect(element.text).toBe('');
@@ -70,7 +64,6 @@ describe('CtrlButton', () => {
   test('should set title from text if title is not provided', async () => {
     element = await fixture(html`<ctrl-button text="Button Text"></ctrl-button>`) as CtrlButton;
 
-    // Wait for firstUpdated to complete
     await element.updateComplete;
 
     expect(element.title).toBe('Button Text');
@@ -143,13 +136,20 @@ describe('CtrlButton', () => {
     // Wait for firstUpdated to complete
     await element.updateComplete;
 
-    // Since the submit button is now created by the controller, we can't directly access it
-    // Instead, we'll verify that the raiseEvent method is called, which happens after the submit button click
+    
+    // Method 1: Check if the submit event handler is called
+    const submitHandler = vi.fn();
+    element.addEventListener('submit', submitHandler);
+    
+    // Method 2: Spy on the raiseEvent method
     const raiseEventSpy = vi.spyOn(element, 'raiseEvent');
 
+    
+    // Trigger a click on the button
     element.click();
 
-    // Verify that raiseEvent was called with the correct arguments
-    expect(raiseEventSpy).toHaveBeenCalledWith('action', { action: '' });
+    expect(raiseEventSpy).toHaveBeenCalledWith('submit');
+    expect(submitHandler).toHaveBeenCalled();
+  
   });
 });

@@ -1,7 +1,6 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import '../components/select';
-import '../components/option';
 
 /**
  * Selects demo page component
