@@ -15,7 +15,6 @@ export class SidebarMenu extends LitElement {
     { id: 'buttons', label: 'Buttons', icon: 'button' },
     { id: 'selects', label: 'Selects', icon: 'select' },
     { id: 'logs', label: 'Logs', icon: 'logs' },
-    { id: 'playwright', label: 'Playwright Report', icon: 'report' },
     { id: 'coverage', label: 'Test Coverage', icon: 'coverage' }
   ];
 
@@ -125,7 +124,6 @@ export class SidebarMenu extends LitElement {
     .icon-info::before { content: "ℹ️"; }
     .icon-docs::before { content: "📚"; }
     .icon-logs::before { content: "🩺"; }
-    .icon-report::before { content: "🎭"; }
     .icon-coverage::before { content: "📊"; }
   `;
 }

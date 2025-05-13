@@ -188,9 +188,3 @@ export class CtrlSelect extends WebComponent {
     `;
   }
 }
-
-declare global {
-  interface HTMLElementTagNameMap {
-    'ctrl-select': CtrlSelect;
-  }
-}
