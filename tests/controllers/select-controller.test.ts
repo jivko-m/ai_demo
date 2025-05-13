@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, test, expect, vi, beforeEach, afterEach } from 'vitest';
 import { ReactiveControllerHost } from 'lit';
 import { SelectController } from '../../src/controllers/select-controller';
 
@@ -55,11 +55,11 @@ describe('SelectController', () => {
     vi.clearAllMocks();
   });
 
-  it('should register itself with the host', () => {
+  test('should register itself with the host', () => {
     expect(host.addController).toHaveBeenCalledWith(controller);
   });
 
-  it('should process ctrl-option elements when present', () => {
+  test('should process ctrl-option elements when present', () => {
     // Create mock option elements
     const option1 = document.createElement('div');
     option1.setAttribute('value', 'value1');
@@ -88,7 +88,7 @@ describe('SelectController', () => {
     expect(host.selectedIndex).toBe(1); // Second option is selected
   });
 
-  it('should add options to the select element', () => {
+  test('should add options to the select element', () => {
     // Set up test data
     host.dataSource = [
       { value: 'value1', label: 'Option 1' },
@@ -113,7 +113,7 @@ describe('SelectController', () => {
     expect(realSelect.children[1].textContent).toBe('Option 2');
   });
 
-  it('should clear options from the select element', () => {
+  test('should clear options from the select element', () => {
     // Create a real select element for this test
     const realSelect = document.createElement('select');
     const option = document.createElement('option');
@@ -134,7 +134,7 @@ describe('SelectController', () => {
     expect(realSelect.children.length).toBe(0);
   });
 
-  it('should handle change events', () => {
+  test('should handle change events', () => {
     // Set up test data
     host.dataSource = [
       { value: 'value1', label: 'Option 1' },
@@ -162,7 +162,7 @@ describe('SelectController', () => {
     expect(host.raiseEvent).toHaveBeenCalledWith('change', host.selectedItem);
   });
 
-  it('should set selected item based on value', () => {
+  test('should set selected item based on value', () => {
     // Set up test data
     host.dataSource = [
       { value: 'value1', label: 'Option 1' },
@@ -182,7 +182,7 @@ describe('SelectController', () => {
     expect(host.raiseEvent).toHaveBeenCalledWith('value-changed');
   });
 
-  it('should set selected item based on selectedIndex when value is null', () => {
+  test('should set selected item based on selectedIndex when value is null', () => {
     // Set up test data
     host.dataSource = [
       { value: 'value1', label: 'Option 1' },
@@ -203,7 +203,7 @@ describe('SelectController', () => {
     expect(host.raiseEvent).toHaveBeenCalledWith('value-changed');
   });
 
-  it('should clear selection', () => {
+  test('should clear selection', () => {
     // Set up initial state
     host.selectedIndex = 1;
     host.selectedItem = { value: 'value2', label: 'Option 2' };
@@ -218,7 +218,7 @@ describe('SelectController', () => {
     expect(host.value).toBeNull();
   });
 
-  it('should delegate validation methods to the select element', () => {
+  test('should delegate validation methods to the select element', () => {
     // Create a real select element for this test
     const realSelect = document.createElement('select');
     vi.spyOn(realSelect, 'setCustomValidity');
@@ -246,7 +246,7 @@ describe('SelectController', () => {
     expect(controller.validationMessage).toBe(realSelect.validationMessage);
   });
 
-  it('should update when dataSource changes', () => {
+  test('should update when dataSource changes', () => {
     // Spy on methods
     vi.spyOn(controller, 'setSelected');
     vi.spyOn(controller, 'addOptions');
@@ -263,7 +263,7 @@ describe('SelectController', () => {
     expect(controller.addOptions).toHaveBeenCalled();
   });
 
-  it('should update when readonly changes', () => {
+  test('should update when readonly changes', () => {
     // Spy on methods
     vi.spyOn(controller, 'addOptions');
 
@@ -278,7 +278,7 @@ describe('SelectController', () => {
     expect(controller.addOptions).toHaveBeenCalled();
   });
 
-  it('should update when value or selectedIndex changes', () => {
+  test('should update when value or selectedIndex changes', () => {
     // Spy on methods
     vi.spyOn(controller, 'setSelected');
 
