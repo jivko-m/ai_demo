@@ -58,6 +58,8 @@ export class DemoApp extends LitElement {
         return html`<selects-page></selects-page>`;
       case 'logs':
         return html`<logs-page></logs-page>`;
+      case 'markdown':
+        return html`<markdown-page></markdown-page>`;
       case 'coverage':
         return html`<iframe src="/coverage/index.html" class="iframe-content"></iframe>`;
       default:

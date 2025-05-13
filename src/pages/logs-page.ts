@@ -1,21 +1,19 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
+import '../components/md-view';
 
-/**
- * Logs page component that displays generated HTML files with tab navigation
- */
 @customElement('logs-page')
 export class LogsPage extends LitElement {
   @state()
   activeTab = 'markdown-examples';
 
   // List of available HTML files
-  private logFiles = [
-    { id: 'junie-plans', label: 'Junie Plans', path: '/src/docs/junie-plans.html' },
-    { id: 'ctrl-button', label: 'Button Component', path: '/src/docs/conversion-logs/ctrl-button.html' },
-    { id: 'ctrl-select', label: 'Select Component', path: '/src/docs/conversion-logs/ctrl-select.html' },
-    { id: 'style-refactor', label: 'Style Refactor', path: '/src/docs/style-refactoring-decision.html' },
-  ];
+  private docFiles = [
+      { id: 'junie-plans', label: 'Junie Plans', path: './src/docs/junie-plans.md' },
+      { id: 'ctrl-button', label: 'Button Component', path: './src/docs/ctrl-button.md' },
+      { id: 'ctrl-select', label: 'Select Component', path: './src/docs/ctrl-select.md' },
+      { id: 'style-refactor', label: 'Style Refactor', path: './src/docs/style-refactoring-decision.md' },
+    ];
 
   render() {
     return html`
@@ -28,7 +26,7 @@ export class LogsPage extends LitElement {
 
         <div class="tabs-container">
           <div class="tabs">
-            ${this.logFiles.map(file => html`
+            ${this.docFiles.map(file => html`
               <button 
                 class="tab ${this.activeTab === file.id ? 'active' : ''}"
                 @click=${() => this._setActiveTab(file.id)}>
@@ -38,11 +36,7 @@ export class LogsPage extends LitElement {
           </div>
 
           <div class="tab-content">
-            <iframe 
-              src=${this._getActiveFilePath()} 
-              class="content-frame" 
-              title="Documentation Content">
-            </iframe>
+            <md-view path=${this._getActiveFilePath()}></md-view>
           </div>
         </div>
       </div>
@@ -54,8 +48,8 @@ export class LogsPage extends LitElement {
   }
 
   private _getActiveFilePath() {
-    const activeFile = this.logFiles.find(file => file.id === this.activeTab);
-    return activeFile ? activeFile.path : this.logFiles[0].path;
+    const activeFile = this.docFiles.find(file => file.id === this.activeTab);
+    return activeFile ? activeFile.path : this.docFiles[0].path;
   }
 
   static styles = css`
