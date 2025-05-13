@@ -57,7 +57,7 @@ export class CtrlButton extends WebComponent {
   @property({type: String}) action = '';
   @property({type: String}) path = '';
   @property({type: String}) text = '';
-  @property({type: String}) title = undefined;
+  @property({type: String}) title = '';
 
   constructor() {
     super();
@@ -108,7 +108,7 @@ export class CtrlButton extends WebComponent {
       this.append(btnSubmit);
     }
     
-    this.title = this.title ?? this.text;
+    this.title = this.title === '' ? this.text : this.title;
   }
 
   render() {

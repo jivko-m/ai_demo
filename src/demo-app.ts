@@ -5,6 +5,7 @@ import './components/sidebar-menu';
 import './pages/home-page';
 import './pages/buttons-page';
 import './pages/logs-page';
+import './pages/selects-page';
 
 /**
  * Demo app for ctrl-button and ctrl-select components
