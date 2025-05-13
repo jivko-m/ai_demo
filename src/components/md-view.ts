@@ -10,7 +10,7 @@ export class CtrlMDView extends WebComponent {
     @state() private error: string | null = null;
 
     private md = new MarkdownIt();
-    
+
     constructor() {
         super();
     }
@@ -57,7 +57,7 @@ export class CtrlMDView extends WebComponent {
         `;
     }
 
-    static styles = css`
+    static styles = [css`
             :host {
                 display: block;
                 font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -140,5 +140,5 @@ export class CtrlMDView extends WebComponent {
                 border: 1px solid #f5c6cb;
                 border-radius: 4px;
             }
-        `;
+        `];
 }
