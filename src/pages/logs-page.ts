@@ -1,18 +1,24 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import '../components/md-view';
+
+import '../docs/button-docs';
+import '../docs/select-docs';
+import '../docs/junie-plans-docs';
+import '../docs/style-refactoring-docs';
+
+import {renderIf} from "../web-component.ts";
 
 @customElement('logs-page')
 export class LogsPage extends LitElement {
   @state()
-  activeTab = 'markdown-examples';
+  activeTab = 'junie-plans';
 
   // List of available HTML files
   private docFiles = [
-      { id: 'junie-plans', label: 'Junie Plans', action: async() => import('../docs/junie-plans.md') },
-      { id: 'ctrl-button', label: 'Button Component', action: async() => import('../docs/ctrl-button.md') },
-      { id: 'ctrl-select', label: 'Select Component', action: async() => import('../docs/ctrl-select.md') },
-      { id: 'style-refactor', label: 'Style Refactor', action: async() => import('../docs/style-refactoring-decision.md') },
+      { id: 'junie-plans', label: 'Junie Plans'},
+      { id: 'ctrl-button', label: 'Button Component'},
+      { id: 'ctrl-select', label: 'Select Component'},
+      { id: 'style-refactor', label: 'Style Refactor'},
     ];
 
   render() {
@@ -36,7 +42,10 @@ export class LogsPage extends LitElement {
           </div>
 
           <div class="tab-content">
-            <md-view .id=${this._getActiveFilePath()}></md-view>
+             ${renderIf(this.activeTab === 'junie-plans', () => html`<junie-plans-docs></junie-plans-docs>`)}
+             ${renderIf(this.activeTab === 'ctrl-button', () => html`<button-docs></junie-plans-docs>`)}
+             ${renderIf(this.activeTab === 'ctrl-select', () => html`<select-docs></select-docs>`)}
+             ${renderIf(this.activeTab === 'style-refactor', () => html`<style-refactoring-docs></style-refactoring-docs>`)}
           </div>
         </div>
       </div>
@@ -45,11 +54,6 @@ export class LogsPage extends LitElement {
 
   private _setActiveTab(tabId: string) {
     this.activeTab = tabId;
-  }
-
-  private _getActiveFilePath() {
-      const activeFile = this.docFiles.find(file => file.id === this.activeTab);
-      return activeFile ? activeFile.id : this.docFiles[0].id;
   }
 
   static styles = css`
