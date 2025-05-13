@@ -9,10 +9,10 @@ export class LogsPage extends LitElement {
 
   // List of available HTML files
   private docFiles = [
-      { id: 'junie-plans', label: 'Junie Plans', path: './src/docs/junie-plans.md' },
-      { id: 'ctrl-button', label: 'Button Component', path: './src/docs/ctrl-button.md' },
-      { id: 'ctrl-select', label: 'Select Component', path: './src/docs/ctrl-select.md' },
-      { id: 'style-refactor', label: 'Style Refactor', path: './src/docs/style-refactoring-decision.md' },
+      { id: 'junie-plans', label: 'Junie Plans', action: async() => import('../docs/junie-plans.md') },
+      { id: 'ctrl-button', label: 'Button Component', action: async() => import('../docs/ctrl-button.md') },
+      { id: 'ctrl-select', label: 'Select Component', action: async() => import('../docs/ctrl-select.md') },
+      { id: 'style-refactor', label: 'Style Refactor', action: async() => import('../docs/style-refactoring-decision.md') },
     ];
 
   render() {
@@ -36,7 +36,7 @@ export class LogsPage extends LitElement {
           </div>
 
           <div class="tab-content">
-            <md-view path=${this._getActiveFilePath()}></md-view>
+            <md-view .id=${this._getActiveFilePath()}></md-view>
           </div>
         </div>
       </div>
@@ -48,8 +48,8 @@ export class LogsPage extends LitElement {
   }
 
   private _getActiveFilePath() {
-    const activeFile = this.docFiles.find(file => file.id === this.activeTab);
-    return activeFile ? activeFile.path : this.docFiles[0].path;
+      const activeFile = this.docFiles.find(file => file.id === this.activeTab);
+      return activeFile ? activeFile.id : this.docFiles[0].id;
   }
 
   static styles = css`

@@ -15,7 +15,7 @@ export class SidebarMenu extends LitElement {
     { id: 'buttons', label: 'Buttons', icon: 'button' },
     { id: 'selects', label: 'Selects', icon: 'select' },
     { id: 'logs', label: 'Docs', icon: 'logs' },
-    { id: 'coverage', label: 'Test Coverage', icon: 'coverage' }
+    // { id: 'coverage', label: 'Test Coverage', icon: 'coverage' }
   ];
 
   render() {

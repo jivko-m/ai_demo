@@ -5,29 +5,39 @@ import MarkdownIt from "markdown-it";
 @customElement('md-view')
 export class CtrlMDView extends WebComponent {
 
-    @property({type: String}) path = '';
+    @property({type: String}) id = '';
     @state() private content = '';
     @state() private error: string | null = null;
 
     private md = new MarkdownIt();
 
+    private docFiles = [
+        { id: 'junie-plans', label: 'Junie Plans', action: async() => import('../docs/junie-plans.md') },
+        { id: 'ctrl-button', label: 'Button Component', action: async() => import('../docs/ctrl-button.md') },
+        { id: 'ctrl-select', label: 'Select Component', action: async() => import('../docs/ctrl-select.md') },
+        { id: 'style-refactor', label: 'Style Refactor', action: async() => import('../docs/style-refactoring-decision.md') },
+    ];
     constructor() {
         super();
     }
 
     async updated(changedProperties: Map<string, unknown>) {
-        if (changedProperties.has('path') && this.path) {
+        if (changedProperties.has('id') && this.id) {
             await this.fetchMarkdownContent();
         }
     }
 
     async fetchMarkdownContent() {
-        if (!this.path) return;
+        if (!this.id || this.id.length === 0) return;
 
         this.error = null;
-
         try {
-            const response = await fetch(this.path);
+            const file = this.docFiles.find(file => file.id === this.id);
+            
+            const module = await file.action();
+            const path = module.default;
+
+            const response = await fetch(path);
 
             if (!response.ok) {
                 throw new Error(`Failed to load markdown file: ${response.statusText}`);
