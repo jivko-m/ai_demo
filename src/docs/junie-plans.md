@@ -1,32 +1,31 @@
-## Run and Fix Playwright Tests and Components
+## Resolve TypeScript build errors in project
 ### Prompt #1
-- run playwright tests
-- fix components and tests acordingly
+Fix tsc build errors in project
 
 ### Junie Plan
-1. Explore the project structure to understand the codebase better
-2. Look at the Playwright configuration to understand how tests are set up
-3. Examine existing Playwright tests to understand what they're testing
-4. Look at the test pages to understand the test environment
-5. Look at the test component implementation
-6. Look at the select component implementation
-7. Look at the select controller implementation
-8. Look at the web-component base class
-9. Look at the render-if directive
-10. Run the Playwright tests to identify failures
-11. Fix the select component implementation
-12. Fix the render-if directive to accept a direct TemplateResult
-13. Fix the select.spec.ts test file to use more specific locators
-14. Fix the select component to properly handle ctrl-option elements
-15. Fix the select component to properly initialize selectedItem
-16. Add a connectedCallback method to process ctrl-option elements
-17. Fix the disabled select to properly display its text
-18. Fix the nullable select to properly handle empty selection
-19. Fix the select component to properly render options in the select element
-20. Verify that the tests pass after the fixes
-21. Submit the changes
+1. Examine the project structure to get a better understanding of the codebase
+2. Look at the package.json to understand the project dependencies and build scripts
+3. Check the tsconfig.json to understand the TypeScript configuration
+4. Run the TypeScript compiler to see the actual errors
+5. Examine the files with errors
+- Look at web-component.ts to understand the base class
+- Examine button.ts
+- Examine md-view.ts
+- Examine select.ts
+6. Fix the TypeScript errors
+- Fix the `styles` property in all components to be an array ✓ (button.ts, md-view.ts, select.ts)
+- Fix the event listener options in button.ts
+- Add type annotation for parameter 'e' in button.ts
+- Fix the 'path' property issue in button.ts
+- Fix the `styles` property in md-view.ts
+- Add type declarations for 'markdown-it'
+- Fix the `styles` property in select.ts
+- Fix type mismatches in select.ts ✓ (dataSource setter, optionsToDataSource function)
+- Fix unused parameter warning in select.ts
+- Fix innerText property access on Element in select.ts
+7. Verify the fixes by running the TypeScript compiler again
 ### Summary
-A `/count` endpoint was added to return the total key-value pairs stored. The implementation is error-free, and all tests passed.
+All TypeScript build errors in the project were successfully fixed, including correcting the `styles` property in all components to be arrays and resolving event listener options. The implementation is error-free, and the TypeScript compiler ran without any issues.
 ***
 
 

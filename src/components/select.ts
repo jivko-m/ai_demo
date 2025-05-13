@@ -2,13 +2,13 @@
 import { WebComponent, html, renderIf } from '../web-component';
 import { customElement, property, state } from 'lit/decorators.js';
 
-const optionsToDataSource = (list: HTMLElement[]): Array<{
+const optionsToDataSource = (list: Element[]): Array<{
   value: string;
   label: string;
   selected: boolean;
 }> => list.map((l) => ({
-  value: l.getAttribute('value') || l.innerText,
-  label: l.innerText,
+  value: l.getAttribute('value') || (l as HTMLElement).innerText,
+  label: (l as HTMLElement).innerText,
   selected: l.hasAttribute('selected')
 }));
 
@@ -20,7 +20,7 @@ interface DataSourceItem {
 
 @customElement('ctrl-select')
 export class CtrlSelect extends WebComponent {
-  static styles = selectStyles;
+  static styles = [selectStyles];
 
   @property({ type: String }) name = '';
   @property({ type: Boolean, reflect: true }) disabled = false;
@@ -81,7 +81,7 @@ export class CtrlSelect extends WebComponent {
         const nullItem: DataSourceItem = { [this.displayMember]: '', [this.valueMember]: null };
         data = [nullItem, ...data];
       } else {
-        data = ['', ...data];
+        data = [{ value: '', label: '' } as DataSourceItem, ...data];
       }
 
       // When nullable is true, set selectedIndex to -1 and value to null
@@ -114,7 +114,7 @@ export class CtrlSelect extends WebComponent {
     this.selectedItem = null;
   }
 
-  firstUpdated(changedProperties: Map<string, any>): void {
+  firstUpdated(_changedProperties: Map<string, any>): void {
     const ctrlOptions = Array.from(this.querySelectorAll('ctrl-option'));
     if (ctrlOptions.length > 0) {
       this.dataSource = optionsToDataSource(ctrlOptions);

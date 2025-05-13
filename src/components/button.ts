@@ -4,7 +4,7 @@ import { WebComponent} from '../web-component';
 
 @customElement('ctrl-button')
 export class CtrlButton extends WebComponent {
-  static styles = css`
+  static styles = [css`
     :host {
       cursor: pointer;
       display: inline-flex;
@@ -48,7 +48,7 @@ export class CtrlButton extends WebComponent {
       cursor: not-allowed;
       box-shadow: none;
     }
-  `;
+  `];
 
   @property({type: String}) name = '';
   @property({type: Boolean, reflect: true}) disabled = false;
@@ -64,10 +64,10 @@ export class CtrlButton extends WebComponent {
     this.text = this.icon = this.path = '';// '';
     this.disabled = false;
 
-    this.addEventListener('click', this.handleClick.bind(this), {useCapture: true});
+    this.addEventListener('click', this.handleClick.bind(this), {capture: true});
   }
-  
-  handleClick(e){
+
+  handleClick(e: MouseEvent){
     if (this.disabled) {
       e.stopImmediatePropagation();
       e.preventDefault();
@@ -83,7 +83,7 @@ export class CtrlButton extends WebComponent {
     }
 
     let type = 'action';
-    const detail = { action: this.action };
+    const detail: { action: string; path?: string } = { action: this.action };
 
     if (this.path) {
       type = 'follow';
@@ -107,7 +107,7 @@ export class CtrlButton extends WebComponent {
 
       this.append(btnSubmit);
     }
-    
+
     this.title = this.title === '' ? this.text : this.title;
   }
 
