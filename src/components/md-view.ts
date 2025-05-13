@@ -34,7 +34,7 @@ export class CtrlMDView extends WebComponent {
         try {
             const file = this.docFiles.find(file => file.id === this.id);
             
-            const module = await file.action();
+            const module = await file?.action();
             const path = module.default;
 
             const response = await fetch(path);
