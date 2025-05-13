@@ -1,4 +1,4 @@
-﻿name: PR Validation
+﻿name: Pull Request Validation
 
 on:
   pull_request:
@@ -28,7 +28,7 @@ jobs:
         run: npm run build
 
   merge:
-    needs: test-and-build
+    needs: test_and_build_job
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
