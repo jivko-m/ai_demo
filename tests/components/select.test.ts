@@ -1,4 +1,4 @@
-﻿import {describe, test, expect, beforeAll, afterAll} from 'vitest';
+﻿﻿import {describe, test, expect, beforeAll, afterAll} from 'vitest';
 import {html, fixture, fixtureCleanup } from '@open-wc/testing-helpers';
 
 // Import the component
@@ -42,4 +42,30 @@ describe('ctrl-select component', () => {
     expect(select.value).toBe(4);
     expect(select.selectedItem.name).toBe('France');
   });
+
+  test('should handle nullable values', async () => {
+    const select = await fixture(html`<ctrl-select
+        .dataSource="${countries}"
+        value-member="id"
+        display-member="name"
+        nullable>
+    </ctrl-select>`) as CtrlSelect;
+  
+    // Verify initial state
+    expect(select.value).toBeNull();
+    expect(select.selectedItem).toBeNull();
+  
+    // Select a value and verify
+    select.selectedIndex = 2;
+    await select.updateComplete;
+    expect(select.value).toBe(3);
+    expect(select.selectedItem.name).toBe('United Kingdom');
+
+    // Clear selection and verify
+    select.selectedIndex = -1;
+    await select.updateComplete;
+    expect(select.value).toBeNull();
+    expect(select.selectedItem).toBeNull();
+  });
 });
+

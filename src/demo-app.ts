@@ -1,12 +1,9 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 import './components/button';
-import './components/select';
-import './components/option';
 import './components/sidebar-menu';
 import './pages/home-page';
 import './pages/buttons-page';
-import './pages/selects-page';
 import './pages/logs-page';
 
 /**
