@@ -112,54 +112,100 @@ export class SelectsPage extends LitElement {
   static styles = css`
     :host {
       display: block;
+      font-family: var(--font-family, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif);
+      --primary-color: #4a90e2;
+      --secondary-color: #34495e;
     }
 
     .page {
-      padding: 1rem;
+      padding: 1.5rem;
+      max-width: 1200px;
+      margin: 0 auto;
     }
 
     h1 {
-      color: #2c3e50;
-      margin-bottom: 1rem;
+      color: var(--secondary-color, #2c3e50);
+      margin-bottom: 1.2rem;
+      font-weight: 600;
+      font-size: 2rem;
+      border-bottom: 2px solid #eee;
+      padding-bottom: 0.5rem;
     }
 
     p {
       color: #34495e;
-      line-height: 1.6;
+      line-height: 1.7;
       margin-bottom: 2rem;
+      font-size: 1.05rem;
     }
 
     .demo-container {
       background-color: #f9f9f9;
-      border-radius: 8px;
-      padding: 1.5rem;
+      border-radius: 10px;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      border: 1px solid #eaeaea;
     }
 
     .demo-row {
       display: flex;
       align-items: center;
-      margin-bottom: 1.5rem;
-      padding: 1rem;
+      margin-bottom: 2rem;
+      padding: 1.5rem;
       background-color: white;
-      border-radius: 4px;
-      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      border: 1px solid #f0f0f0;
+    }
+    
+    .demo-row:last-child {
+      margin-bottom: 0;
     }
 
     h3 {
-      color: #555;
-      margin: 0 1rem 0 0;
-      min-width: 150px;
+      color: var(--secondary-color, #444);
+      margin: 0 1.5rem 0 0;
+      min-width: 180px;
+      font-weight: 500;
+      font-size: 1.1rem;
     }
 
     .select-demo {
       display: flex;
       flex-direction: column;
+      flex: 1;
+    }
+
+    ctrl-select {
+      min-width: 250px;
+      max-width: 350px;
     }
 
     .selection-info {
-      margin: 0.5rem 0 0 0;
+      margin: 0.8rem 0 0 0;
       font-size: 0.9rem;
       color: #666;
+      background-color: #f5f9ff;
+      padding: 0.5rem 0.8rem;
+      border-radius: 4px;
+      border-left: 3px solid var(--primary-color, #4a90e2);
+    }
+
+    @media (max-width: 768px) {
+      .demo-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      h3 {
+        margin: 0 0 1rem 0;
+      }
+
+      ctrl-select {
+        width: 100%;
+        max-width: none;
+      }
     }
   `;
 }

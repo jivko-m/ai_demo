@@ -11,42 +11,100 @@ export class CtrlButton extends WebComponent {
       align-items: center;
       justify-content: center;
       background-clip: padding-box;
-      background: var(--bgr-1);
+      background: var(--bgr-1, #3498db);
+      color: var(--btn-color, white);
       border: none;
-      border-radius: var(--border-radius, 0.2em);
+      border-radius: var(--border-radius, 0.3em);
       white-space: nowrap;
-      padding: 0.5em 0.8em;
-      transition: background-color 0.2s ease, box-shadow 0.2s ease;
+      padding: 0.4em 1em;
+      transition: all 0.3s ease;
       min-height: 2.2em;
-      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      position: relative;
+      overflow: hidden;
+    }
+
+    :host::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(255, 255, 255, 0.1);
+      opacity: 0;
+      transition: opacity 0.3s ease;
     }
 
     :host(:hover) {
-      background: var(--bgr-1-hover);
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      background: var(--bgr-1-hover, #2980b9);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+      transform: translateY(-1px);
+    }
+
+    :host(:hover)::after {
+      opacity: 1;
+    }
+
+    :host(:active) {
+      transform: translateY(1px);
+      box-shadow: 0 2px 3px rgba(0, 0, 0, 0.1);
     }
 
     :host(:focus), :host(.focus) {
       outline: none;
-      box-shadow: var(--focus-border), 0 2px 4px rgba(0, 0, 0, 0.1);
+      box-shadow: var(--focus-border, 0 0 0 3px rgba(52, 152, 219, 0.3)), 0 4px 8px rgba(0, 0, 0, 0.15);
     }
 
     .ctrl-text {
-      margin: 0 0.2em;
+      margin: 0 0.3em;
+      font-size: 0.95em;
     }
 
     .ficon, [class^="draficon-"] {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin-right: 0.4em;
+      margin-right: 0.6em;
+      font-size: 1.1em;
     }
 
     :host([disabled]) {
-      background: var(--bgr-disabled-btn);
-      color: var(--btn-color-disabled);
+      background: var(--bgr-disabled-btn, #e0e0e0);
+      color: var(--btn-color-disabled, #a0a0a0);
       cursor: not-allowed;
       box-shadow: none;
+      transform: none;
+    }
+
+    :host([disabled]):hover {
+      transform: none;
+      box-shadow: none;
+    }
+
+    :host([disabled])::after {
+      display: none;
+    }
+
+    /* Compact button variant */
+    :host(.compact) {
+      padding: 0.3em 0.7em;
+      min-height: 1.8em;
+      font-size: 0.9em;
+    }
+
+    :host(.compact) .ctrl-text {
+      margin: 0 0.2em;
+    }
+
+    :host(.compact) .ficon, 
+    :host(.compact) [class^="draficon-"] {
+      margin-right: 0.3em;
+      font-size: 1em;
+      width: 1.1em;
+      height: 1.1em;
     }
   `];
 

@@ -1,6 +1,5 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
-import './components/button';
 import './components/sidebar-menu';
 import './pages/home-page';
 import './pages/buttons-page';
@@ -58,10 +57,6 @@ export class DemoApp extends LitElement {
         return html`<selects-page></selects-page>`;
       case 'logs':
         return html`<logs-page></logs-page>`;
-      case 'markdown':
-        return html`<markdown-page></markdown-page>`;
-      case 'coverage':
-        return html`<iframe src="/coverage/index.html" class="iframe-content"></iframe>`;
       default:
         return html`<home-page></home-page>`;
     }
