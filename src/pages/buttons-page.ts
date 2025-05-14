@@ -32,7 +32,7 @@ export class ButtonsPage extends LitElement {
           <div class="demo-row">
             <h3>Button with Icon</h3>
             <div class="button-container">
-              <ctrl-button icon="draficon-arr-down" text="Button with Icon"></ctrl-button>
+              <ctrl-button icon="draficon-circle" text="Button with Icon"></ctrl-button>
             </div>
           </div>
 

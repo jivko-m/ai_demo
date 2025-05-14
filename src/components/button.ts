@@ -103,6 +103,8 @@ export class CtrlButton extends WebComponent {
     :host(.compact) [class^="draficon-"] {
       margin-right: 0.3em;
       font-size: 1em;
+      width: 1.1em;
+      height: 1.1em;
     }
   `];
 
