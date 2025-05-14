@@ -28,14 +28,6 @@ export class ButtonsPage extends LitElement {
               </ctrl-button>
             </div>
           </div>
-
-          <div class="demo-row">
-            <h3>Button with Icon</h3>
-            <div class="button-container">
-              <ctrl-button icon="draficon-circle" text="Button with Icon"></ctrl-button>
-            </div>
-          </div>
-
           <div class="demo-row">
             <h3>Disabled Button</h3>
             <div class="button-container">
@@ -75,22 +67,11 @@ export class ButtonsPage extends LitElement {
               <ctrl-button text="Orange" style="--bgr-1: #f39c12; --bgr-1-hover: #d35400;"></ctrl-button>
             </div>
           </div>
-
-          <div class="demo-row">
-            <h3>Icon Buttons</h3>
-            <div class="button-container">
-              <ctrl-button icon="draficon-arr-down" text="Down"></ctrl-button>
-              <ctrl-button icon="draficon-arr-up" text="Up" style="--bgr-1: var(--secondary-color); --bgr-1-hover: #27ae60;"></ctrl-button>
-              <ctrl-button icon="draficon-arr-left" text="Left" style="--bgr-1: var(--accent-color); --bgr-1-hover: #c0392b;"></ctrl-button>
-              <ctrl-button icon="draficon-arr-right" text="Right" style="--bgr-1: #9b59b6; --bgr-1-hover: #8e44ad;"></ctrl-button>
-            </div>
-          </div>
-
+          
           <div class="demo-row">
             <h3>Compact Buttons</h3>
             <div class="button-container">
               <ctrl-button class="compact" text="Compact"></ctrl-button>
-              <ctrl-button class="compact" icon="draficon-arr-down" text="With Icon"></ctrl-button>
               <ctrl-button class="compact" style="--bgr-1: var(--secondary-color); --bgr-1-hover: #27ae60;" text="Green"></ctrl-button>
               <ctrl-button class="compact" style="--bgr-1: var(--accent-color); --bgr-1-hover: #c0392b;" text="Red"></ctrl-button>
               <ctrl-button class="compact" disabled text="Disabled"></ctrl-button>
